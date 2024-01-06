@@ -143,5 +143,41 @@ df_er_closed <-
   left_join(df_dime_merge) |> 
   left_join(df_er_participants)
 
+## Issues
+df_er_issues_open <- 
+  df_er_clean |> 
+  dplyr::select(ResponseId, Q9.1_1:Q9.1_3,Q10.1_1:Q10.1_3) |> 
+  pivot_longer(cols = -ResponseId,
+               names_to = "question_open",
+               values_to = "issues_open") |> 
+  separate(question_open, into = c("question_stem", "number"), sep = "_", remove = FALSE) |> 
+  mutate(party = ifelse(str_detect(question_open, "5"), "dem", "rep")) |> 
+  group_by(ResponseId, question_stem) |> 
+  mutate(number = as.numeric(number),
+         issues_open_count = sum(!is.na(issues_open))) |> 
+  ungroup() |> 
+  #unite("party_open", c(party_open, number), sep = "_", remove = FALSE) |> 
+  dplyr::select(-question_stem) |> 
+  left_join(df_er_participants)
+
+
+## State politicians 
+df_er_state_open <- 
+  df_er_clean |> 
+  dplyr::select(ResponseId,  Q11.1_1:Q11.1_3,Q12.1_1:Q12.1_3) |> 
+  pivot_longer(cols = -ResponseId,
+               names_to = "question_open",
+               values_to = "politicians_state_open") |> 
+  separate(question_open, into = c("question_stem", "number"), sep = "_", remove = FALSE) |> 
+  mutate(party = ifelse(str_detect(question_open, "5"), "dem", "rep")) |> 
+  group_by(ResponseId, question_stem) |> 
+  mutate(number = as.numeric(number),
+         politicians_state_open_count = sum(!is.na(politicians_state_open))) |> 
+  ungroup() |> 
+  #unite("party_open", c(party_open, number), sep = "_", remove = FALSE) |> 
+  dplyr::select(-question_stem) |> 
+  left_join(df_er_participants)
+ 
+
 rm(df_dime_merge)
 
