@@ -10,23 +10,43 @@ library(stringr)
 ## DIME Data 
 ## data is reduced to governors, presidents, and senate members
 df_dime <- read.csv("data/cf_scores/dime_recipients_1979_2020.csv.gz") |> 
-  drop_na(cand.gender) |> 
-  filter(cand.gender %in% c("M", "F")) |>  
-  filter(seat %in% c("state:governor",  "federal:president", "federal:senate")) |> 
+  # drop_na(cand.gender) |> 
+  # filter(cand.gender %in% c("M", "F")) |>  
+  # filter(seat %in% c("state:governor",  "federal:president", "federal:senate")) |> 
+  # mutate(party = ifelse(party.orig == "100", "Democrat",
+  #                       ifelse(party.orig == "200", "Republican", NA))) |> 
+  # dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
+  #               cand.gender:irt.cfscore, party, seat) |> 
+  mutate(name_f = as.factor(name)) |> 
   mutate(party = ifelse(party.orig == "100", "Democrat",
                         ifelse(party.orig == "200", "Republican", NA))) |> 
   dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
                 cand.gender:irt.cfscore, party, seat) |> 
-  mutate(name_f = as.factor(name))
+  mutate(name_f = as.factor(name)) |> 
+  filter(bonica.rid %in% c(
+    # Republicans
+    "cand625nominee", "cand3331", "cand3334nominee", "cand105110", "cand584", 
+    "cand144919", "cand992", "cand110286", "cand1403", "cand418", "cand108459", 
+    "cand837", "cand100270nominee", "cand1573",
+    # Democrats
+    "cand221nominee", "cand3333nominee", "cand1572nominee", "cand760", 
+    "cand3335nominee", "cand158985", "cand159005", "cand1235", "cand140679",
+    "cand1616", "cand744", "cand146299", "cand1600", "cand41775")) |> 
+  group_by(bonica.rid) |> 
+  filter(cycle == max(cycle)) |> 
+  mutate(drop = ifelse(bonica.rid == "cand1235" & seat == "federal:senate", "drop",
+                       ifelse(bonica.rid == "cand41775" & seat == "federal:house", "drop", "keep"))) |> 
+  filter(drop == "keep") |> 
+  dplyr::select(-drop)
   
 ## Generate subset data sets that only look at individual parties
 reps <- 
   df_dime  |> 
-  filter(cycle > 2000) |> 
+  #filter(cycle > 2000) |> 
   filter(!is.na(party)) |> 
   group_by(bonica.rid) |> 
-  filter(cycle == max(cycle)) |> 
-  filter(fecyear == max(fecyear)) |> 
+  #filter(cycle == max(cycle)) |> 
+  #filter(fecyear == max(fecyear)) |> 
   drop_na(recipient.cfscore) |> 
   filter(party == "Republican") |> 
   #filter(str_detect(seat, "federal")) |> 
@@ -35,11 +55,11 @@ reps <-
 
 dems <- 
   df_dime  |> 
-  filter(cycle > 2000) |> 
+  #filter(cycle > 2000) |> 
   filter(!is.na(party)) |> 
   group_by(bonica.rid) |> 
-  filter(cycle == max(cycle)) |> 
-  filter(fecyear == max(fecyear)) |> 
+  #filter(cycle == max(cycle)) |> 
+  #filter(fecyear == max(fecyear)) |> 
   drop_na(recipient.cfscore) |> 
   filter(party == "Democrat") |> 
   #filter(str_detect(seat, "federal")) |> 
@@ -50,11 +70,11 @@ dems <-
 # Plots
 ## Plotting the Democrats
 df_dime  |> 
-  filter(cycle > 2010) |> 
+  #filter(cycle > 2010) |> 
   filter(!is.na(party)) |> 
   group_by(bonica.rid) |> 
-  filter(cycle == max(cycle)) |> 
-  filter(fecyear == max(fecyear)) |> 
+  #filter(cycle == max(cycle)) |> 
+  #filter(fecyear == max(fecyear)) |> 
   drop_na(recipient.cfscore) |> 
   filter(party == "Democrat") |> 
   #filter(str_detect(seat, "federal")) |> 
@@ -74,11 +94,11 @@ df_dime  |>
 
 ## Plotting the Republicans
 df_dime  |> 
-  filter(cycle > 2010) |> 
+  #filter(cycle > 2010) |> 
   filter(!is.na(party)) |> 
   group_by(bonica.rid) |> 
-  filter(cycle == max(cycle)) |> 
-  filter(fecyear == max(fecyear)) |> 
+  #filter(cycle == max(cycle)) |> 
+  #filter(fecyear == max(fecyear)) |> 
   drop_na(recipient.cfscore.dyn) |> 
   #filter(str_detect(seat, "federal")) |> 
   #filter(party == "Democrat") |> 
