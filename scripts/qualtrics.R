@@ -1,28 +1,29 @@
-# Title:qualtrics.R
-# Date: 2023-12-15
-# Author: Daniel Weitzel
-# Email: daniel.weitzel@colostate.edu
+# Title:   qualtrics.R
+# Date:    2023-12-15
+# Author:  Daniel Weitzel
+# Email:   daniel.weitzel@colostate.edu
 # Purpose: Collect data from Qualtrics and prepare it for analysis 
 
 # Working directory
 setwd(githubdir)
+setwd("extreme_recall2")
 
 # Libraries
 library(tidyverse)
-library(qualtRics)
+#library(qualtRics)     # Only required for call to Qualtrics API
 library(readxl)
 
-## Fetch the Qualtrics keys
-source("~/Dropbox/Research/R/scripts/qualtrics_csu.R")
+## Fetch the Qualtrics keys, only required for call to API
+#source("~/Dropbox/Research/R/scripts/qualtrics_csu.R")
 
 ## Load the politicians data 
-df_politicians <- read_excel("extreme_recall2/data/politicians/politicians_attributes.xlsx") |> 
+df_politicians <- read_excel("data/politicians/politicians_attributes.xlsx") |> 
   drop_na(bonica.rid) |> 
   dplyr::select(bonica.rid, race_ethnicity, recency, most_recent_office)
 
 ## Load and process DIME data
 df_dime_merge <-
-  read_csv("extreme_recall2/data/cf_scores/dime_recipients_1979_2020.csv.gz") |> 
+  read_csv("data/cf_scores/dime_recipients_1979_2020.csv.gz") |> 
   mutate(party = ifelse(party.orig == "100", "Democrat",
                         ifelse(party.orig == "200", "Republican", NA))) |> 
   dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
@@ -50,14 +51,17 @@ df_dime_merge <-
 rm(df_politicians)
 
 ## Call Qualtrics data
-df_er <- fetch_survey(surveyID = "SV_eRpRcmF8vPjlaWG", 
-                      verbose = TRUE,
-                      force_request = TRUE)
+#df_er <- fetch_survey(surveyID = "SV_eRpRcmF8vPjlaWG", 
+#                      verbose = TRUE,
+#                      force_request = TRUE)
 
-## Clean data 
+# Save Qualtrics data
+#write_csv(df_er, "extreme_recall2/data/lucid/er2_lucid_jan2023.csv")
+
+## Load the data
 ## Process the survey data so it's ready for analysis (remove text, make vars numeric etc)
-df_er_clean <-
-  df_er |> 
+df_er_clean <- read_csv("data/lucid/er2_lucid_jan2023.csv") |> 
+  dplyr::select(-c(RecipientLastName:ExternalReference)) |> 
   filter(Q1.1 != "I do not agree") |> 
   mutate(passed_ac = ifelse(Q4.1_1 == "Extremely interested" &
                               Q4.1_2 == "Very interested", TRUE, FALSE),
@@ -66,6 +70,9 @@ df_er_clean <-
                                   ifelse(str_detect(Q2.4, "Republican"), "Republican",
                                          ifelse(str_detect(Q2.4, "Democrat"), "Democrat", NA)))),
          pol_interest = as.numeric(str_remove_all(Q2.5_1,"Passionately interested |Not at all interested ")))
+
+
+
 
 ## Reduce to only the vars with data about the participants we need
 df_er_participants <-

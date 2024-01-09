@@ -141,55 +141,6 @@ df_er_clean2 <-
          Q7.5 = factor(Q7.5, levels=c("Some high school or less", "High school graduate","Other post high school vocational training", 
                                                 "Completed some college, but no degree", "Associate's degree", "Bachelor's degree", 
                                                 "Master's or professional degree", "Doctorate degree", "None of the above")))
-  
-
-table(df_er_clean2$Q7.6, df_er_clean2$ethnicity)
-df_er_clean2 |> 
-  mutate(Q7.6= coalesce(Q7.6_1, Q7.6_2, Q7.6_3,Q7.6_4, Q7.6_5, Q7.6_6,Q7.6_7)) |> 
-  dplyr::select(Q7.6, ethnicity) |> 
-  drop_na() |> 
-  group_by(Q7.6, ethnicity) |> 
-  add_count() |> 
-  ggplot(aes(x = Q7.6, y = ethnicity, fill = n)) +
-  geom_tile()
-
-df_er_clean2 |> 
-  dplyr::select(Q7.7, hispanic) |> 
-  drop_na() |> 
-  group_by(Q7.7, hispanic) |> 
-  add_count() |> 
-  ggplot(aes(x = Q7.7, y = hispanic, fill = n)) +
-  geom_tile()
-
-table(df_er_clean2$Q7.4, df_er_clean2$gender)
-df_er_clean2 |> 
-  dplyr::select(Q7.4, gender) |> 
-  drop_na() |> 
-  group_by(Q7.4, gender) |> 
-  add_count() |> 
-  ggplot(aes(x = Q7.4, y = gender, fill = n)) +
-  geom_tile()
-
-
-table(df_er_clean2$Q7.11, df_er_clean2$hhi)
-df_er_clean2 |> 
-  dplyr::select(Q7.11, hhi) |> 
-  drop_na() |> 
-  group_by(Q7.11, hhi) |> 
-  add_count() |> 
-  ggplot(aes(x = Q7.11, y = hhi, fill = n)) +
-  geom_tile()
-
-
-table(df_er_clean2$Q7.5, df_er_clean2$education)
-
-df_er_clean2 |> 
-  dplyr::select(Q7.5, education) |> 
-  drop_na() |> 
-  group_by(Q7.5, education) |> 
-  add_count() |> 
-  ggplot(aes(x = Q7.5, y = education, fill = n)) +
-  geom_tile()
 
 ## Visualize number of politicians in OPEN
 df_er_open |> 
