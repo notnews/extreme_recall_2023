@@ -6,9 +6,10 @@
 
 # Working directory
 setwd(githubdir)
+setwd("extreme_recall2")
 
 # Libraries
-source(file = "extreme_recall2/scripts/qualtrics.R")
+source(file = "scripts/qualtrics.R")
 
 ## Randomization check
 table(df_er_clean$experiment)

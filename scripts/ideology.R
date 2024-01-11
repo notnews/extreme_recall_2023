@@ -10,9 +10,10 @@ library(stringr)
 ## DIME Data 
 ## data is reduced to governors, presidents, and senate members
 df_dime <- read.csv("data/cf_scores/dime_recipients_1979_2020.csv.gz") |> 
-  # drop_na(cand.gender) |> 
-  # filter(cand.gender %in% c("M", "F")) |>  
-  # filter(seat %in% c("state:governor",  "federal:president", "federal:senate")) |> 
+   drop_na(cand.gender) |> 
+   filter(cand.gender %in% c("M", "F")) |>  
+   filter(seat %in% c("state:governor",  "federal:president", "federal:senate", "federal:house"))
+  |> 
   # mutate(party = ifelse(party.orig == "100", "Democrat",
   #                       ifelse(party.orig == "200", "Republican", NA))) |> 
   # dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
@@ -21,7 +22,9 @@ df_dime <- read.csv("data/cf_scores/dime_recipients_1979_2020.csv.gz") |>
   mutate(party = ifelse(party.orig == "100", "Democrat",
                         ifelse(party.orig == "200", "Republican", NA))) |> 
   dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
-                cand.gender:irt.cfscore, party, seat) |> 
+                cand.gender:irt.cfscore, party, seat)
+
+|> 
   mutate(name_f = as.factor(name)) |> 
   filter(bonica.rid %in% c(
     # Republicans
@@ -175,3 +178,22 @@ df_pols_dw1  |>
   coord_flip() + theme_bw()  + theme(legend.position = "bottom")
 
 
+
+## People named in the data set 
+
+df_er_open |> 
+  ungroup() |> 
+  dplyr::select(politican_clean, party_name) |> 
+  drop_na(politican_clean) |> 
+  add_count(politican_clean) |> 
+  ggplot(aes(x = reorder(politican_clean, n),fill = party_name)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_manual(name="Party", 
+                    labels = c("Democrat", "Republican"), 
+                    values = c("Democrat"="blue", "Republican"="#f8766d")) +
+  labs(title = "Frequency of politicians named in open ended question",
+       x = "Politician",
+       y = "Count",
+       caption = "Question: When you think about the Democratic/Republican Party, which political leader(s) first come to mind? Name up to three ...") +
+  theme_bw()
