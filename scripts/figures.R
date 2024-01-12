@@ -10,6 +10,25 @@ library(readxl)
 source("scripts/survey_df_clean.R")
 
 
+## People named in the data set 
+df_er_open |> 
+  ungroup() |> 
+  dplyr::select(politican_clean, party_name) |> 
+  drop_na(politican_clean) |> 
+  add_count(politican_clean) |> 
+  ggplot(aes(x = reorder(politican_clean, n),fill = party_name)) +
+  geom_bar() +
+  coord_flip() +
+  scale_fill_manual(name="Party", 
+                    labels = c("Democrat", "Republican"), 
+                    values = c("Democrat"="blue", "Republican"="#f8766d")) +
+  labs(title = "Frequency of politicians named in open ended question",
+       x = "Politician",
+       y = "Count",
+       caption = "Question: When you think about the Democratic/Republican Party, which political leader(s) first come to mind? Name up to three ...") +
+  theme_bw()
+
+
 ## Frequency of recalled politicians 
 df_er_open |> 
   dplyr::select(ResponseId, party_open_q, politican_clean, 
