@@ -74,14 +74,11 @@ df_er_clean <- read_csv("data/lucid/er2_lucid_jan2023.csv") |>
   filter(Q1.1 != "I do not agree") |> 
   mutate(passed_ac = ifelse(Q4.1_1 == "Extremely interested" &
                               Q4.1_2 == "Very interested", TRUE, FALSE),
-         partisan = ifelse(Q2.1 == "Republican", "Republican",
-                           ifelse(Q2.1 == "Democrat", "Democrat",
-                                  ifelse(str_detect(Q2.4, "Republican"), "Republican",
-                                         ifelse(str_detect(Q2.4, "Democrat"), "Democrat", NA)))),
+         partisan = ifelse(str_detect(Q2.4, "Republic"), "Republican",
+                           ifelse(str_detect(Q2.4, "Democrat"), "Democrat", NA)),
+         partisan = ifelse(Q2.1 == "Democrat", "Democrat",
+                           ifelse(Q2.1 == "Republican", "Republican", partisan)),
          pol_interest = as.numeric(str_remove_all(Q2.5_1,"Passionately interested |Not at all interested ")))
-
-
-
 
 ## Reduce to only the vars with data about the participants we need
 df_er_participants <-
@@ -261,7 +258,7 @@ df_er_closed <-
   #unite("party_closed", c(party_closed, number), sep = "_", remove = FALSE) |> 
   dplyr::select(-question_stem) |>
   #drop_na(politicians_closed) |> 
-  left_join(df_dime_merge) |> 
+  left_join(df_dime_closed_merge) |> 
   left_join(df_er_participants)
 
 ## Issues
@@ -320,5 +317,5 @@ df_er_state_open <-
   left_join(df_er_participants)
 
 
-rm(df_dime_merge)
+#rm(df_dime_merge)
 
