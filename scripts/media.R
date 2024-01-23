@@ -45,16 +45,18 @@ ggplot(counts, aes(x = n)) +
 ggsave("figures/media_pol_density.pdf")
 
 name_percs <- shows %>%
+  filter(!(stanford_name %in% nonpols$stanford_name)) %>% 
+ # filter(year > 2017) %>%
   count(stanford_name) %>%
   arrange(desc(n)) %>%
-  slice_head(n = 50) %>%
-  mutate(perc = n / sum(n) * 100)
+  mutate(perc = n / sum(n) * 100) %>%
+  slice_head(n = 50)
 
 # Plot histogram
 ggplot(name_percs, aes(x = reorder(stanford_name, n), y = perc)) +
   geom_col() +
   coord_flip() +
-  labs(title = "Top 50 Names and 'All Other' by Frequency",
+  labs(x = "",
        y = "Percentage of All Citations") +
   scale_y_continuous(breaks = seq(1, 10, 1)) +
   theme_minimal()
@@ -73,3 +75,40 @@ name_percs <- shows %>%
   ) %>%
   mutate(perc = n / sum(n) * 100)
 
+name_percs <- shows %>%
+  filter(!(stanford_name %in% nonpols$stanford_name)) %>%
+  count(stanford_name) %>%
+  arrange(desc(n)) %>%
+  mutate(political_category = ifelse(row_number() <= 25, as.character(stanford_name), 'all other')) %>%
+  group_by(political_category) %>%
+  summarise(n = sum(n)) %>%
+  ungroup() %>%
+  mutate(perc = n / sum(n) * 100)
+
+# Plot the data
+ggplot(name_percs, aes(x = reorder(political_category, perc), y = perc)) +
+  geom_col() +
+  coord_flip() +
+  labs(x = "Political Category",
+       y = "Percentage of All Citations") +
+  scale_y_continuous(breaks = seq(0, 70, 10)) +
+  theme_minimal()
+
+# Let's see how things look like 2020 and later
+name_percs <- shows %>%
+  filter(!(stanford_name %in% nonpols$stanford_name)) %>% 
+  filter(year > 2019) %>%
+  count(stanford_name) %>%
+  arrange(desc(n)) %>%
+  mutate(perc = n / sum(n) * 100) %>%
+  slice_head(n = 50)
+
+# Plot histogram
+ggplot(name_percs, aes(x = reorder(stanford_name, n), y = perc)) +
+  geom_col() +
+  coord_flip() +
+  labs(x = "",
+       y = "Percentage of All Citations") +
+  scale_y_continuous(breaks = seq(1, 10, 1)) +
+  theme_minimal()
+ggsave("figures/media_top_50_2020_later.pdf")
