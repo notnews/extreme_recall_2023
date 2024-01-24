@@ -1,26 +1,25 @@
 bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.contributor.state,most.recent.contributor.employer,most.recent.contributor.occupation,keep,keep_gs
 3264148942,richard grenell,0.759,I,2010,NY,richard allen grenell,advisor,1,1
-33283673272,mike jerrick,-0.409,I,2014,PA,NA,anchor,1,1
-106508231,fred clark,-0.959,I,2014,WI,NA,assemblyperson,1,1
+33283673272,mike jerrick,-0.409,I,2014,PA,NA,anchor,1,0
+106508231,fred clark,-0.959,I,2014,WI,NA,assemblyperson,1,0
 3149099407,alexander acosta,1.206,I,2008,VA,us department of justice,attorney,0,1
 4174390153,beau biden,-0.719,I,2008,DE,bifferato gentilotti biden & balick,attorney,0,1
 112556951,eric holder,-1.475,I,2018,DC,covington & burling,attorney,0,1
 2507776278,john r bolton,1.29,I,2018,MD,self employed,attorney,1,1
-30567086884,cornell william brooks,-1.146,I,2002,VA,FCC,ATTORNEY,1,1
+30567086884,cornell william brooks,-1.146,I,2002,VA,FCC,ATTORNEY,1,0
 30567083523,willie brown,-0.665,I,2016,ca,"willie l brown, jr, inc",attorney,1,1
-29105821141,benjamin crump,-0.766,I,2018,FL,ben crump law,attorney,1,1
-105667133,alex ferrer,-1.016,I,2016,FL,morgan & morgan,attorney,1,1
+29105821141,benjamin crump,-0.766,I,2018,FL,ben crump law,attorney,1,0
+105667133,alex ferrer,-1.016,I,2016,FL,morgan & morgan,attorney,1,0
 4691072900,mark geragos,-0.776,I,2018,ca,geragos & geragos apc,attorney,1,1
 4894260481,jeh johnson,-0.827,I,2018,NJ,paul weiss rifkind wharton & garrison,attorney,1,1
 5E+15,lisa monaco,-0.765,I,2004,DC,us dept of justice,attorney,1,1
 3779446150,michael mukasey,1.103,I,2018,NY,debevoise & plimpton,attorney,1,1
-4158378625,mike papantonio,-0.596,I,2018,FL,levin papantonio,attorney,1,1
-4661065957,jordan sekulow,1.149,I,2012,VA,aclj,attorney,1,0
+4158378625,mike papantonio,-0.596,I,2018,FL,levin papantonio,attorney,1,0
 4075301559,bakari sellers,-1.135,I,2018,SC,strom law firm,attorney,1,1
 2939985964,hugh hewitt,0.974,I,2016,CA,self employed,attorney,1,1
 110089625,scott pruitt,1.242,I,2014,OK,state of oklahoma,attorney general,0,1
 3818424755,bob mcdonnell,1.067,I,2008,VA,state of virginia,attorney general,1,1
-35811637818,david cay johnston,-1.408,I,2018,DC,self employed,author,1,1
+35811637818,david cay johnston,-1.408,I,2018,DC,self employed,author,1,0
 4622034775,william d cohan,-0.874,I,2018,NY,self,author journalist,1,1
 109752506,peter bergen,-0.539,I,2018,DC,new america,"author, jounalist",1,1
 30019753852,keith morrison,-1.483,I,2012,CA,nbc,broadcaster,1,1
@@ -31,11 +30,10 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 2791919184,jason miller,0.797,I,2002,MI,larry ward,campaign manager,1,1
 103294998,steve forbes,0.884,I,2010,NJ,forbes inc,ceo,1,1
 2869946631,steve gibson,1.164,I,2008,CA,gibson research corp,ceo,1,1
-4166388187,tony schwartz,-1.32,I,2018,NY,the energy project,ceo,1,0
 35783260101,anthony sullivan,1.028,I,2018,FL,sullivan productions,ceo,1,1
 5E+15,madeleine albright,-1.126,I,2018,DC,the albright group,chair,0,1
-29065804033,steven rattner,-0.795,I,2018,NY,willett advisors llc,chairman & ceo,1,1
-3787986312,peter thiel,0.597,I,2002,CA,paypal,chairman & ceo,1,1
+29065804033,steven rattner,-0.795,I,2018,NY,willett advisors llc,chairman & ceo,1,0
+3787986312,peter thiel,0.597,I,2002,CA,paypal,chairman & ceo,1,0
 3788062204,jay sekulow,1.195,I,2016,DC,aclj,chief counsel,1,1
 5301987429,david linde,-1.192,I,2018,ca,participant media,chief executive officer,1,1
 3149106905,andrew card,1.035,I,2004,VA,us government,chief of staff to pre,1,1
@@ -46,8 +44,7 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 30187841060,stephen miller,1.23,I,2012,CA,united states senate,communications director,1,1
 5302097900,john garamendi,-0.929,I,2016,CA,us house of reps,congressman,1,1
 2424744888,patrick caddell,-1.254,I,2000,CA,self-employed,consultant,1,1
-4468908926,james carville,-0.85,I,2018,VA,self,consultant,1,1
-5E+15,kellyanne conway,1.068,I,2016,NJ,the polling co,consultant,1,0
+4468908926,james carville,-0.85,I,2018,VA,self,consultant,1,0
 2847945959,michael nutter,-1.087,I,2018,PA,michael a nutter llc,consultant,1,1
 35832142703,jack quinn,-1.048,I,2018,DC,qga public affairs,consultant,1,1
 5442816028,rick wilson,1.091,I,2012,FL,NA,consultant,1,1
@@ -59,15 +56,14 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 33026119590,jeremy bash,-0.652,I,2016,MD,"bgs, llc",director,1,1
 3141083436,richard e besser,-1.483,I,2008,GA,cdc,director,1,1
 2801926306,philip j crowley,-1.077,I,2008,DC,center for american progress,director,1,1
-33225054398,jeffrey sachs,-0.264,I,2018,NY,the center for sustainable development,director,1,1
-3153127400,ezekiel emanuel,-0.693,I,1998,IL,dana farber cancer institute,doctor,1,0
-2747911338,conrad murray,1.232,I,2004,NV,global cardiovascular assn,doctor,1,1
-2520786177,charlie sykes,-1.179,I,2014,NC,self,doctor,1,1
+33225054398,jeffrey sachs,-0.264,I,2018,NY,the center for sustainable development,director,1,0
+2747911338,conrad murray,1.232,I,2004,NV,global cardiovascular assn,doctor,1,0
+2520786177,charlie sykes,-1.179,I,2014,NC,self,doctor,1,0
 108827501,gene sperling,-1.363,I,2018,DC,self employed,economic advisor,1,1
 2692870597,kevin hassett,1.035,I,2004,DC,aei,economist,1,1
 5E+15,juliette kayyem,-1.047,I,2018,MA,harvard,education,1,1
 3787749268,richard n haass,0.598,I,2000,MD,brookings institution,educator,1,1
-2592831056,bill maher,-0.635,I,2010,CA,hbo,entertainer,1,1
+2592831056,bill maher,-0.635,I,2010,CA,hbo,entertainer,1,0
 33837020882,biz stone,-0.951,I,2018,ca,"twitter, inc",entrepreneur,1,1
 27916568387,ivanka trump,0.405,I,2012,ny,trump organization,evp development & acquisitions,0,1
 29195886179,david bossie,1.201,I,2004,MD,non profit,executive,1,1
@@ -96,7 +92,7 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 3079032120,oliver north,1.024,I,2008,VA,fox news,media personality,1,1
 2863946876,rob marciano,-0.57,I,2002,OR,NA,meterologist,1,1
 106604916,michael bloomberg,-0.473,I,2014,NA,bloomberg lp,mgmt executives,1,1
-5E+15,julie roginsky,-1.044,I,2012,NJ,comprehensive communications group,mgmt executives,1,1
+5E+15,julie roginsky,-1.044,I,2012,NJ,comprehensive communications group,mgmt executives,1,0
 3957005397,rob oneill,1.252,I,2008,TX,military,military,1,1
 2267633745,john kirby,-0.253,I,0,NY,mudge rose guthrie alexan,mudge rose guthrie alexan,1,1
 4685070132,joe trippi,-1.176,I,2018,MD,trippi & associates,multimedia consultant,1,1
@@ -129,9 +125,7 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 5.00003E+15,katrina pierson,NA,NA,NA,NA,NA,NA,1,1
 3800295011,john podhoretz,0.837,I,1994,NY,new york post,NA,1,1
 5E+15,mercedes schlapp,NA,NA,NA,NA,NA,NA,1,1
-5E+15,a b stoddard,0.96,I,1990,MI,NA,NA,1,0
 5E+15,karen tumulty,-0.809,I,2012,NY,NA,NA,1,1
-5E+15,nicolle wallace,-0.672,I,2004,OH,NA,NA,1,0
 5E+15,lis wiehl,-1.103,I,2000,WA,uw,NA,1,1
 110817414,michael wolff,2.402,I,2010,NY,NA,NA,1,1
 110938656,carl bernstein,-0.308,I,2002,NY,NA,NA,1,1
@@ -141,58 +135,47 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 5.00003E+15,jill dougherty,NA,NA,NA,NA,NA,NA,1,1
 5E+15,donna edwards,NA,NA,NA,NA,NA,NA,1,1
 5.00001E+15,karen finney,NA,NA,NA,NA,NA,NA,1,1
-5.00001E+15,marie harf,NA,NA,NA,NA,NA,NA,1,0
 5E+15,amy holmes,NA,NA,NA,NA,NA,NA,1,1
 3341163991,arthur laffer,1.152,I,1994,CA,NA,NA,1,1
 5E+15,loretta lynch,NA,NA,NA,NA,NA,NA,1,1
 5E+15,ana navarro,NA,NA,NA,NA,NA,NA,1,1
 3360169554,grover norquist,1.108,I,2018,DC,NA,NA,1,1
 5E+15,christine odonnell,NA,NA,NA,NA,NA,NA,1,1
-111150165,david plouffe,-1.043,I,2004,NY,NA,NA,1,0
-2536794987,dennis prager,1.204,I,2004,CA,NA,NA,1,0
 35770736560,michael reagan,1.171,I,2018,CA,NA,NA,1,1
 5E+15,martha reeves,NA,NA,NA,NA,NA,NA,1,1
-2693873925,kenneth rogoff,-0.999,I,2008,MA,NA,NA,1,0
 110272625,michael scheuer,0.382,I,2004,NY,NA,NA,1,1
-3788057922,dan senor,1.01,I,2006,DC,NA,NA,1,1
-112415824,todd starnes,0.696,I,2002,KS,NA,NA,1,1
+3788057922,dan senor,1.01,I,2006,DC,NA,NA,1,0
+112415824,todd starnes,0.696,I,2002,KS,NA,NA,1,0
 5E+15,neera tanden,NA,NA,NA,NA,NA,NA,1,1
-5.00003E+15,goldie taylor,NA,NA,NA,NA,NA,NA,1,0
 5E+15,frances townsend,NA,NA,NA,NA,NA,NA,1,1
 3110056663,eric trump,1.126,I,2016,NY,NA,NA,1,1
 5E+15,randi weingarten,NA,NA,NA,NA,NA,NA,1,1
 2592822595,richard wolffe,-0.054,I,2006,NY,NA,NA,1,1
-2233625357,chuck woolery,-1.263,I,1996,OH,NA,NA,1,1
+2233625357,chuck woolery,-1.263,I,1996,OH,NA,NA,1,0
 5E+15,jenna lee,NA,NA,NA,NA,NA,NA,1,1
 5E+15,katrina vanden heuvel,NA,NA,NA,NA,NA,NA,1,1
 2367679239,michael mullen,0.435,I,2012,VA,usn,naval officer,1,1
 105821009,dick morris,-0.761,I,2008,TN,fox news network,news analyst,1,1
-32593885943,jorge ramos,-1.046,I,2014,FL,noticiero univision,news anchor,1,1
+32593885943,jorge ramos,-1.046,I,2014,FL,noticiero univision,news anchor,1,0
 33319513699,david brock,-1.54,I,2016,DC,media matters for america,non profit executive,1,1
 35251053448,eric shinseki,-1.219,I,2018,VA,not employed,not employed,1,1
-5E+15,angela rye,-0.9,I,2014,WA,national association for equal opportunity in high,other,1,0
-110547387,justin trudeau,-1.603,I,2016,CO,elope inc,"other, marketing",0,1
+110547387,justin trudeau,-1.603,I,2016,CO,elope inc,"other, marketing",0,0
 2457752703,rex w tillerson,1.12,I,2018,tx,NA,owner,0,1
 3088026499,donald sterling,-0.892,I,2008,CA,los angeles clippers,owner,1,1
-108099392,joe lockhart,-1.417,I,2018,NY,self,pa,1,0
-3325172321,paul manafort,0.762,I,2012,VA,davis manafort & freedman,partner,0,1
+3325172321,paul manafort,0.762,I,2012,VA,davis manafort & freedman,partner,0,0
 35807365106,stanley a mcchrystal,-1.455,I,2018,VA,mcchrystal group,partner,1,1
 3188141251,james rubin,-0.765,I,2018,NY,ballard partners,partner,1,1
-102329833,anthony scaramucci,1.285,I,2010,NY,sky bridge capital,partner,1,0
-2446749207,douglas schoen,-0.448,I,1982,NY,penn schoen asso,penn schoen asso,1,1
-5.00003E+15,jillian michaels,-0.594,I,2014,ca,jillian michaels,personal trainer,1,0
+2446749207,douglas schoen,-0.448,I,1982,NY,penn schoen asso,penn schoen asso,1,0
 3361170668,david shulkin,-0.428,I,2014,PA,morristown medical center,physician,1,1
-2583814420,chris plante,-0.118,I,2010,VA,us air force,pilot,1,0
 5E+15,mary matalin,1.753,I,2016,NY,self employed,political consultant,1,1
 2813936271,mike murphy,0.954,I,2018,CA,self,political consultant,1,1
 2425736327,norman ornstein,-1.02,I,2002,MD,NA,political scientist speaker,1,1
 32149541571,al green,-0.78,I,2010,TX,us government,political service,1,1
-4925303133,paul begala,-1.067,I,2016,VA,hat creek enterprises inc,political strategist,1,0
 3208140126,richard stengel,-0.601,I,2004,PA,national constitution center,presid,1,1
 2378707168,robert gates,1.091,I,2006,TX,texas a&m university,president,0,1
 4894255607,reince priebus,1.317,I,2018,VA,NA,president,0,1
 3723259298,benjamin jealous,-1.135,I,2008,CA,rosenburg foundation,president,1,1
-4130336924,frank luntz,1.227,I,2012,VA,luntz global,president,1,1
+4130336924,frank luntz,1.227,I,2012,VA,luntz global,president,1,0
 3788094699,stephen moore,1.006,I,2004,DC,"club for growth, inc",president,1,1
 30521817720,mark penn,0.126,I,1990,NY,PENN & SCHOEN,PRESIDENT,1,1
 5E+15,cecile richards,-0.953,I,2006,DC,planned parenthood fed of america,president,1,1
@@ -205,30 +188,21 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 762319370,stuart stevens,0.978,I,2006,DC,stevens and schriefer group,principal,1,1
 5E+15,erin cardillo,-1.146,I,2018,ca,erin cardillo,producer,1,1
 28339149023,condoleezza rice,1.703,I,2018,ca,stanford university,professor,0,1
-4337677827,michael eric dyson,-1.018,I,2010,MD,georgetown university,professor,1,0
 2536788618,jonathan gruber,-1.328,I,2014,MA,mit,professor,1,1
 2781916704,victor davis hanson,0.906,I,2010,CA,california state university fresno,professor,1,1
-5.00003E+15,sherrilyn ifill,-1.286,I,2012,MD,univ of maryland sch,professor,1,0
 5714163408,neal katyal,-1.291,I,2018,DC,georgetown university,professor,1,1
 5E+15,samantha power,-1.483,I,2012,MA,harvard,professor,1,1
 3784632524,frank j tipler,1.43,I,2016,LA,tulane university,professor,1,1
-29085818767,laurence tribe,-1.089,I,2018,MA,harvard lawschool,professor,1,0
 103510880,cornel west,-1.474,I,2016,NY,union theological seminary,professor,1,1
 3082023359,dennis ross,-0.966,I,2018,MD,georgetown university,professor researcher,1,1
 3266150588,keith ablow,0.25,I,2018,MA,self employed,psychiatrist,1,1
-107784969,roger stone,0.586,I,2000,DC,NA,public affairs,1,0
 2693866125,andrew breitbart,1.131,I,2008,CA,breitbartcom,publisher,1,1
 5432803050,herman cain,1.111,I,2018,GA,cox media,radio host,0,1
-26591918110,michael medved,1.646,I,2010,WA,salem radio network,radio host,1,0
 3201129185,bill press,-1.15,I,2012,CA,dial global,radio host,1,1
-33098634645,dean obeidallah,-1.092,I,2018,NY,dean of comedy prods,radio host writer comedian,1,0
 2575824063,larry elder,1.599,I,2002,ca,self-employed,radio talk show host,1,1
-2658859041,scott rasmussen,-0.299,I,1980,CT,rasmussen enterprises inc,rasmussen enterprises inc,1,0
 4598975197,jared kushner,-0.754,I,2014,NY,kushner companies,real estate executive,0,1
 105771469,dave ramsey,1.035,I,2014,TN,the lampo group,realtor,1,1
 3285173152,lawrence korb,-1.3,I,2018,va,center for american progress,research,1,1
-3750294899,michael isikoff,-1.253,I,2008,FL,not employed,retired,1,0
-4074298093,chesley sullenberger,-1.483,I,2012,CA,retired,retired,1,0
 29325998475,ralph peters,1.252,I,2006,VA,retired,retired,1,1
 2329667481,johnny rutherford,-1.483,I,2008,TX,not employed,retired,1,1
 3201121870,michael t flynn,1.135,I,2010,DC,retired,retired,1,1
@@ -236,20 +210,16 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 34376636249,dan bongino,0.085,I,2014,MD,NA,self employed,1,1
 2963995845,david gregory,-1.327,I,2016,VA,NA,self employed,1,1
 2466752655,denis mcdonough,-1.311,I,2018,MD,self employed,self employed,1,1
-3788041807,peter beinart,-0.774,I,2010,DC,new america foundation,senior fellow,1,1
-33758858747,jay carney,-1.265,I,2018,DC,amazon,senior vice president,1,0
+3788041807,peter beinart,-0.774,I,2010,DC,new america foundation,senior fellow,1,0
 4924281605,mehmet oz,0.531,I,2018,NJ,asplundh tree expert co,shareholder,1,1
 3784641111,joe arpaio,1.189,I,2002,AZ,maricopa county,sheriff,0,1
 3977034361,david clarke,0.891,I,2016,WI,milwaukee county,sheriff,1,1
-32785686762,penn jillette,-1.4,I,2014,NV,penn & teller,showbiz,1,0
 2753907786,ben rhodes,-1.483,I,2008,DC,obama for america,speechwriter,1,1
-27926710967,brian fallon,-1.483,I,2012,DC,us senate,spokesman,1,0
 32774563286,colin powell,-0.46,I,2006,VA,"kleiner, perkins, caufield & byers",strategic limited partner,0,1
 33929185494,bill burton,-1.364,I,2018,CA,skdknickerbocker,strategist,1,1
 3793215614,jacob soboroff,-1.418,I,2004,CA,nyu,student,1,1
-3803341209,luke russert,-1.483,I,2008,DC,not employed,student,1,0
 2868944060,erick erickson,1.001,I,2018,GA,cox media group,talk host,1,1
-5E+15,wendy walsh,-1.47,I,2014,CA,kfi am 640 los angeles,talk radio host,1,1
+5E+15,wendy walsh,-1.47,I,2014,CA,kfi am 640 los angeles,talk radio host,1,0
 5643928305,norman l eisen,-0.86,I,2016,DC,brookings,think tank,1,1
 5.00003E+15,amy matthews,-1.489,I,2014,MN,self,tv host,1,1
 35666423778,mark mckinnon,0.661,I,2018,CO,self,tv producer,1,1
@@ -258,19 +228,49 @@ bonica.cid,stanford_name,contributor.cfscore,contributor.type,cycle,most.recent.
 4313606233,joe walsh,1.105,I,2010,IL,us government,us congressman,1,1
 3088037618,john edwards,-1.088,I,2004,NC,us senate,us senator,0,1
 4116327385,michael grimm,0.845,I,2012,VA,congressman,usa,1,1
-3188134220,aaron david miller,-1.109,I,2018,MD,woodrow wilson center,vp,1,1
+3188134220,aaron david miller,-1.109,I,2018,MD,woodrow wilson center,vp,1,0
 3267159511,joe theismann,0.761,I,1986,VA,washington redskins,washington redskins,1,1
 102230405,max boot,-0.843,I,2018,NY,council on foreign relations,writer,1,1
 3732296950,james fallows,-1.296,I,2010,DC,atlantic monthly,writer,1,1
 35350530389,joe klein,-1.363,I,2018,NY,joe klein llc,writer,1,1
 2871963831,rob long,0.193,I,2010,CA,rcbl inc,writer,1,1
-3788172870,thomas mcguane,-1.124,I,2016,MT,self,writer,1,1
+3788172870,thomas mcguane,-1.124,I,2016,MT,self,writer,1,0
 4020274625,tim wise,-1.429,I,2010,TN,self,writer,1,1
-104434973,peter schweizer,0.858,I,2016,FL,NA,writer investigator,1,1
+104434973,peter schweizer,0.858,I,2016,FL,NA,writer investigator,1,0
 5E+15,laura bush,1.004,I,2016,TX,self employed,former first lady of the united sta,0,1
 5E+15,barbara bush,NA,NA,NA,NA,NA,NA,0,1
 5E+15,michelle obama,NA,NA,NA,NA,NA,NA,0,1
 5.00003E+15,ann romney,NA,NA,NA,NA,NA,NA,0,1
+4661065957,jordan sekulow,1.149,I,2012,VA,aclj,attorney,1,0
+4166388187,tony schwartz,-1.32,I,2018,NY,the energy project,ceo,1,0
+5E+15,kellyanne conway,1.068,I,2016,NJ,the polling co,consultant,1,0
+3153127400,ezekiel emanuel,-0.693,I,1998,IL,dana farber cancer institute,doctor,1,0
+5E+15,a b stoddard,0.96,I,1990,MI,NA,NA,1,0
+5E+15,nicolle wallace,-0.672,I,2004,OH,NA,NA,1,0
+5.00001E+15,marie harf,NA,NA,NA,NA,NA,NA,1,0
+111150165,david plouffe,-1.043,I,2004,NY,NA,NA,1,0
+2536794987,dennis prager,1.204,I,2004,CA,NA,NA,1,0
+2693873925,kenneth rogoff,-0.999,I,2008,MA,NA,NA,1,0
+5.00003E+15,goldie taylor,NA,NA,NA,NA,NA,NA,1,0
+5E+15,angela rye,-0.9,I,2014,WA,national association for equal opportunity in high,other,1,0
+108099392,joe lockhart,-1.417,I,2018,NY,self,pa,1,0
+102329833,anthony scaramucci,1.285,I,2010,NY,sky bridge capital,partner,1,0
+5.00003E+15,jillian michaels,-0.594,I,2014,ca,jillian michaels,personal trainer,1,0
+2583814420,chris plante,-0.118,I,2010,VA,us air force,pilot,1,0
+4925303133,paul begala,-1.067,I,2016,VA,hat creek enterprises inc,political strategist,1,0
+4337677827,michael eric dyson,-1.018,I,2010,MD,georgetown university,professor,1,0
+5.00003E+15,sherrilyn ifill,-1.286,I,2012,MD,univ of maryland sch,professor,1,0
+29085818767,laurence tribe,-1.089,I,2018,MA,harvard lawschool,professor,1,0
+107784969,roger stone,0.586,I,2000,DC,NA,public affairs,1,0
+26591918110,michael medved,1.646,I,2010,WA,salem radio network,radio host,1,0
+33098634645,dean obeidallah,-1.092,I,2018,NY,dean of comedy prods,radio host writer comedian,1,0
+2658859041,scott rasmussen,-0.299,I,1980,CT,rasmussen enterprises inc,rasmussen enterprises inc,1,0
+3750294899,michael isikoff,-1.253,I,2008,FL,not employed,retired,1,0
+4074298093,chesley sullenberger,-1.483,I,2012,CA,retired,retired,1,0
+33758858747,jay carney,-1.265,I,2018,DC,amazon,senior vice president,1,0
+32785686762,penn jillette,-1.4,I,2014,NV,penn & teller,showbiz,1,0
+27926710967,brian fallon,-1.483,I,2012,DC,us senate,spokesman,1,0
+3803341209,luke russert,-1.483,I,2008,DC,not employed,student,1,0
 3200136042,sean spicer,1.195,I,2018,VA,self,advertising marketing,1,0
 4067304713,robby mook,-1.322,I,2014,DC,NA,advisor,1,0
 3722252715,megalyn echikunwoke,-1.539,I,2018,CA,self,artist,1,0
