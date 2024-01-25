@@ -303,3 +303,5 @@ TSWLatexianTemp*
 .Rproj.user
 .*.Rproj
 data/lucid/~$treme_recall.docx
+.RData
+.Rhistory
