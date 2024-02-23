@@ -15,6 +15,21 @@ w1_state_politicians <- c("chris christie","jeb bush", "jerry brown", "jon hunts
                           "sarah palin", "nikki haley","rick perry", "rick scott", "ron cuccinelli",
                           "scott walker","terry mcauliffe","terry wilson", "wendy davis")
 
+bill    <- c("bill clinton", "pres. clinton", "president clinton")
+hillary <- c("hilary clinton", "hillary clinton", "hillary", "hilliary clinton", "hillary cliton", "hiliary clinton", "hillary rodham clinton", "hillary cllinton")
+clinton <- c("clinton", "klinton", "clintony")
+jeb     <- c("jeb bush","bush's brother")
+bush <- c("president bush", "george bush", "bush")
+gwb  <- c("w. bush", "president george bush (jr)", "president george bush (2nd one)", 
+          "george wbush", "george w. bush", "george w bush", "george bush jr.", 
+          "george bush jr", "george bush ii", "bush junior", "bush jr.", 
+          "bush jr", "bush 2")
+ghwb <- c("george hw bush", "george h.w. bush", "george h. w. bush", 
+          "george h. bush", "george h w bush", "george bush, sr.", 
+          "george bush, senior", "george bush sr.", "g hw bush", "bush sr", 
+          "bush senior")
+
+
 df_clean_names  <- import("data/turk/clean_names.dta") |> 
   dplyr::select(uniqid, dem_ex_mc, rep_ex_mc) |> 
   mutate(dem_ex_mc = ifelse(dem_ex_mc == "", NA, dem_ex_mc), 
@@ -50,7 +65,7 @@ df_w1_politician <-
 df_w1_survey <- 
   df_w1 |> 
   dplyr::select(-c(recall_party, recall_order, name, dem_ex_1:rep_ex_3, 
-                recall_rating:recipient.cfscore.dyn, exec:party_name)) |> 
+                   recall_rating:recipient.cfscore.dyn, exec:party_name)) |> 
   distinct()
 
 
@@ -111,31 +126,12 @@ df_w1_complete <-
          dwnom1 = coalesce(dwnom1, dwnom1_new),
          dwnom2 = coalesce(dwnom2, dwnom2_new),
          recipient.cfscore.dyn = coalesce(recipient.cfscore.dyn, recipient.cfscore.dyn_new),
-         number_inverse = ((recall_order -4)*-1)/3,
-         recipient.cfscore.dyn_scaled1 = ifelse(party_name == "Democrat", recipient.cfscore.dyn, NA),
-         recipient.cfscore.dyn_scaled2 = ifelse(party_name == "Republican", recipient.cfscore.dyn, NA),
-         recipient.cfscore.dyn_scaled_comb = coalesce(abs(recipient.cfscore.dyn_scaled1),recipient.cfscore.dyn_scaled2),
-         recipient.cfscore.dyn_scaled_comb = rescale(recipient.cfscore.dyn_scaled_comb),
-         recipient.cfscore.dyn_scaled1 = rescale(abs(recipient.cfscore.dyn_scaled1)),
-         recipient.cfscore.dyn_scaled2 = rescale(recipient.cfscore.dyn_scaled2),
-         recipient.cfscore.dyn_scaled = coalesce(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2)) |> 
-  dplyr::select(-c(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2, ends_with("_new"), drop)) |> 
+         number_inverse = ((recall_order -4)*-1)/3) |> 
+  dplyr::select(-c(ends_with("_new"), drop)) |> 
   left_join(df_w1_survey) |> 
   group_by(ResponseId, recall_party) |> 
   mutate(politicians_open_count = sum(!is.na(name)),
-         state_politician = name %in% w1_state_politicians)
-
-bill <- c("bill clinton", "pres. clinton", "president clinton")
-hillary <- c("hilary clinton", "hillary clinton", "hillary", "hilliary clinton", "hillary cliton", "hiliary clinton", "hillary rodham clinton", "hillary cllinton")
-clinton <- c("clinton", "klinton", "clintony")
-
-
-check <-
-  df_w1_complete |> 
-  ungroup() |> 
-  dplyr::select(name, politician_as_entered) |> 
-  filter(str_detect(name, "clinton")) |> 
-  distinct() |> 
+         state_politician = name %in% w1_state_politicians) |> 
   mutate(name_extreme = case_when(
     politician_as_entered %in% clinton ~ "hillary clinton",
     politician_as_entered %in% bill ~ "bill clinton",
@@ -145,14 +141,89 @@ check <-
       politician_as_entered %in% clinton ~ "bill clinton",
       politician_as_entered %in% bill ~ "bill clinton",
       politician_as_entered %in% hillary ~ "hillary clinton",
-      .default = name))
-    
+      .default = name),
+    name_prop = case_when(
+      politician_as_entered %in% clinton ~ "clinton ambiguous",
+      politician_as_entered %in% bill ~ "bill clinton",
+      politician_as_entered %in% hillary ~ "hillary clinton",
+    ),
+    clinton_assign = ifelse(name_prop == "clinton ambiguous", sample(c("bill", "hillary"), prob = c(0.485, 0.515)), NA),
+    name_prop = case_when(
+      clinton_assign == "bill" ~ "bill clinton",
+      clinton_assign == "hillary" ~ "hillary clinton",
+      .default = name_prop),
+    name = ifelse(name %in% jeb, "jeb bush", name),
+    cfscore = ifelse(name %in% jeb, 0.919, cfscore),
+    recipient.cfscore.dyn = ifelse(name %in% jeb, 0.948, recipient.cfscore.dyn),
+    name_extreme = case_when(
+      politician_as_entered %in% bush ~ "george h. w. bush",
+      politician_as_entered %in% ghwb ~ "george h. w. bush",
+      politician_as_entered %in% gwb ~ "george w bush",
+      .default = name),
+    name_moderate = case_when(
+      politician_as_entered %in% bush ~ "george w bush",
+      politician_as_entered %in% ghwb ~ "george h. w. bush",
+      politician_as_entered %in% gwb ~ "george w bush",
+      .default = name),
+    name_prop = case_when(
+      politician_as_entered %in% bush ~ "bush ambiguous",
+      politician_as_entered %in% ghwb ~ "george h. w. bush",
+      politician_as_entered %in% gwb ~ "george w bush",
+      .default = name),
+    bush_assign = ifelse(name_prop == "bush ambiguous", sample(c("w", "hw"), prob = c(0.758, 0.242)), NA),
+    name_prop = case_when(
+      bush_assign == "w" ~ "george w bush",
+      bush_assign == "hw" ~ "george h. w. bush",
+      .default = name_prop),
+    cfscore_prob = case_when(
+      name_prop == "bill clinton" ~ -0.8249882,
+      name_prop == "hillary clinton" ~ -1.1018933,
+      name_prop == "george w bush" ~ 0.9920000,
+      name_prop == "george h. w. bush" ~ 0.9224605,
+      .default = cfscore),
+    cfscore_moderate = case_when(
+      name_prop == "bill clinton" ~ -0.8249882,
+      name_prop == "hillary clinton" ~ -1.1018933,
+      name_prop == "george w bush" ~ 0.9920000,
+      name_prop == "george h. w. bush" ~ 0.9224605,
+      .default = cfscore),
+    cfscore_extreme = case_when(
+      name_prop == "bill clinton" ~ -0.8249882,
+      name_prop == "hillary clinton" ~ -1.1018933,
+      name_prop == "george w bush" ~ 0.9920000,
+      name_prop == "george h. w. bush" ~ 0.9224605,
+      .default = cfscore),
+    recipient.cfscore.dyn_prob = case_when(
+      name_prop == "bill clinton" ~ -0.6689523,
+      name_prop == "hillary clinton" ~ -0.9435650,
+      name_prop == "george w bush" ~ 1.3020000,
+      name_prop == "george h. w. bush" ~ 0.8344688,
+      .default = recipient.cfscore.dyn),
+    recipient.cfscore.dyn_moderate = case_when(
+      name_prop == "bill clinton" ~ -0.6689523,
+      name_prop == "hillary clinton" ~ -0.9435650,
+      name_prop == "george w bush" ~ 1.3020000,
+      name_prop == "george h. w. bush" ~ 0.8344688,
+      .default = recipient.cfscore.dyn),
+    recipient.cfscore.dyn_extreme = case_when(
+      name_prop == "bill clinton" ~ -0.6689523,
+      name_prop == "hillary clinton" ~ -0.9435650,
+      name_prop == "george w bush" ~ 1.3020000,
+      name_prop == "george h. w. bush" ~ 0.8344688,
+      .default = recipient.cfscore.dyn),
+    recipient.cfscore.dyn_scaled1 = ifelse(party_name == "Democrat", recipient.cfscore.dyn, NA),
+    recipient.cfscore.dyn_scaled2 = ifelse(party_name == "Republican", recipient.cfscore.dyn, NA),
+    recipient.cfscore.dyn_scaled_comb = coalesce(abs(recipient.cfscore.dyn_scaled1),recipient.cfscore.dyn_scaled2),
+    recipient.cfscore.dyn_scaled_comb = rescale(recipient.cfscore.dyn_scaled_comb),
+    recipient.cfscore.dyn_scaled1 = rescale(abs(recipient.cfscore.dyn_scaled1)),
+    recipient.cfscore.dyn_scaled2 = rescale(recipient.cfscore.dyn_scaled2),
+    recipient.cfscore.dyn_scaled = coalesce(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2)) |> 
+  dplyr::select(-c(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2,  bush_assign, clinton_assign)) 
 
-
-table(df_w1_complete$name[df_w1_complete$state_politician == TRUE])
 # Clean up
 rm(df_w1, df_w1_politician, df_w1_survey,df_missing_cf,
-   df_matched_names, df_missing_names)
+   df_matched_names, df_missing_names,
+   bill, hillary, clinton, jeb, bush, ghwb, gwb)
 
 
 ## Number of politicians that came to mind
@@ -232,7 +303,7 @@ df_w1_complete |>
   labs(title = "Number of recalled politicians in the open-ended questions of Wave 1",
        y = "Proportion",
        x = "Number of politicians recalled")
-  
+
 
 
 
@@ -290,8 +361,8 @@ fig_1b_wave1 <-
        x = "",
        y = "Proportion") + 
   scale_color_manual(name="Party", 
-                         labels = c("Democrat", "Republican"), 
-                         values = c("Democrat"="blue", "Republican"="#f8766d")) +
+                     labels = c("Democrat", "Republican"), 
+                     values = c("Democrat"="blue", "Republican"="#f8766d")) +
   theme_bw() + 
   theme(legend.position = "none") +
   ylim(0,0.4)
@@ -331,8 +402,8 @@ ggplot(df_w1_complete, aes(x = recipient.cfscore.dyn_scaled_comb)) +
   # geom_histogram(aes(x = dwnom2), fill = "blue") + 
   theme_bw() +
   labs(#title = "CF Score Distribution",
-      # subtitle = "Political parties are scaled on party-specific min and max",
-       x = "Extremity", y = "Count", fill = "Party")  +
+    # subtitle = "Political parties are scaled on party-specific min and max",
+    x = "Extremity", y = "Count", fill = "Party")  +
   theme(legend.position = "none")
 
 
@@ -378,14 +449,14 @@ df_closed_merge <- read_csv("data/turk/politicians_closed_ended.csv") |>
 
 df_closed_w1_pols <-
   enframe(c("John F. Kennedy", "George W. Bush", "Barack Obama", 
-                            "John McCain", "Harry Reid", "Ronald Reagan", 
-                            "Bill Clinton", "Sarah Palin", "Hillary Clinton", 
-                            "Nancy Pelosi", "Mitt Romney", "Ted Kennedy", 
-                            "Ted Cruz", "Rand Paul", "Chris Christie", 
-                            "Franklin D. Roosevelt", "Jeb Bush", "John Kerry", 
-                            "Mitch McConnell", "Paul Ryan", "Joe Biden", 
-                            "Michele Bachmann", "Marco Rubio", "Eric Cantor", 
-                            "John Boehner", "Barney Frank", "Al Gore")) |> 
+            "John McCain", "Harry Reid", "Ronald Reagan", 
+            "Bill Clinton", "Sarah Palin", "Hillary Clinton", 
+            "Nancy Pelosi", "Mitt Romney", "Ted Kennedy", 
+            "Ted Cruz", "Rand Paul", "Chris Christie", 
+            "Franklin D. Roosevelt", "Jeb Bush", "John Kerry", 
+            "Mitch McConnell", "Paul Ryan", "Joe Biden", 
+            "Michele Bachmann", "Marco Rubio", "Eric Cantor", 
+            "John Boehner", "Barney Frank", "Al Gore")) |> 
   dplyr::select(-name) |> 
   rename(politician = value)
 
