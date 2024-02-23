@@ -14,12 +14,30 @@ library(readxl)
 
 ## Bonica_ids 
 list_bonica_closed <- c(# Republicans
-  "cand625nominee", "cand3331", "cand3334nominee", "cand105110", "cand584", "cand144919", "cand992", "cand110286", "cand1403", "cand418", "cand108459", "cand837", "cand100270nominee", "cand1573",
+  "cand625nominee", "cand3331", "cand3334nominee", "cand105110", "cand584", "cand144919", "cand992", "cand110286", "cand1403", "cand418", "cand108459", "cand837", "cand100270nominee", "cand1573", 
   # Democrats
   "cand221nominee", "cand3333nominee", "cand1572nominee", "cand760", "cand3335nominee", "cand158985", "cand159005", "cand1235", "cand140679","cand1616", "cand744", "cand146299", "cand1600", "cand41775")
-list_bonica_open <- c("cand10", "cand1002", "cand100270nominee", "cand1023", "cand105110", "cand108459", "cand110286", "cand1119", "cand1161", "cand1235", "cand130816", "cand131167", "cand1312", "cand132239", "cand137716", "cand1403", "cand140679", "cand142635", "cand143949", "cand144919", "cand145542", "cand149269", "cand1503", "cand152762", "cand153422", "cand1572nominee", "cand1572nominee", "cand1588", "cand158985", "cand159005", "cand1592", "cand159281", "cand159285", 'cand1600', "cand1603", 'cand160447', "cand1635", "cand166080", 'cand221nominee', "cand23468", "cand28657", "cand303", "cand3330", "cand3331", 'cand3333nominee',"cand3334nominee", "cand3335nominee", 'cand335', 'cand402', "cand41326", "cand41360", "cand41775", "cand43832", "cand545", "cand584", "cand61168", "cand616", 'cand625nominee', "cand69030231", "cand760", "cand82171", "cand837", "cand909", "cand968", "cand98927")
+list_bonica_open <- c("cand3335nominee", "cand221nominee", "cand100270nominee", "cand166080", 
+                      "cand545", "cand132239", "cand31555" ,"cand137524", "cand584", "cand158985", 
+                      "cand968", "cand41326", "cand1572nominee", "cand1607", "cand3333nominee",
+                      "cand3334nominee", "cand3331", "cand105110", "cand108459", "cand837", 
+                      "cand82171","cand625nominee", "cand1235", "cand760", "cand606", "cand1316",
+                      "cand402", "cand159005", "cand1600", "cand335", "cand68896224", "cand3330", 
+                      "cand1023", "cand23468", "cand153422","cand1583", "cand151850", "cand130816", 
+                      "cand116996", "cand141779", "cand1161", "cand110286","cand583", "cand159281", 
+                      "cand1002", "cand149269", "cand140679", "cand137716", "cand1403", "cand159285",
+                      "cand141152", "cand50384", "cand144919", "cand1608", "cand61168", "cand142635",
+                      "cand180820", "cand1603", "cand418", "cand69014415", "cand607", "cand909", 
+                      "cand188224", "cand69030231", "cand50421", "cand47166", "cand1119", "cand147768", 
+                      "cand190976", "cand142740", "cand197013", "cand43832", "cand140557", "cand100450",
+                      "cand10", "cand160447", "cand616", "cand143041", "cand1312", "cand145542",
+                      "cand104638", "cand1635", "cand1588", "cand1592", "cand303", "cand143308", 
+                      "cand28657", "cand152762", "cand161330", "cand141770", "cand153043", "cand1182", 
+                      "cand68893433", "cand68896317", "cand190769", "cand189537", "cand137082",
+                      "cand142904","cand75384", "cand75700", "cand131167", "cand3332nominee")
 
-df_open_ids <- read_csv("data/politicians/names_open_to_id_coded.csv")
+df_open_ids <- read_csv("data/politicians/names_open_to_id_coded.csv") |> 
+  rename()
 df_open_ids_complicated <- read_csv("data/politicians/names_open_to_id.csv")
 
 ## Load the politicians data 
@@ -27,12 +45,15 @@ df_politicians <- read_excel("data/politicians/politicians_attributes.xlsx") |>
   drop_na(bonica.rid) |> 
   dplyr::select(bonica.rid, race_ethnicity, recency, most_recent_office)
 
+df_missing_party <- read_csv("data/politicians/partisanship.csv") |> 
+  distinct()
+
 ## Load and process DIME data
 df_dime_closed_merge <-
   read_csv("data/cf_scores/dime_recipients_1979_2020.csv.gz") |> 
   mutate(party = ifelse(party.orig == "100", "Democrat",
                         ifelse(party.orig == "200", "Republican", NA))) |> 
-  dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
+  dplyr::select(bonica.rid, election, num.givers, cycle, fecyear, name, lname, fname, 
                 cand.gender:irt.cfscore, party, seat) |> 
   mutate(name_f = as.factor(name)) |> 
   filter(bonica.rid %in% list_bonica_closed) |> 
@@ -71,21 +92,34 @@ rm(df_politicians)
 ## Process the survey data so it's ready for analysis (remove text, make vars numeric etc)
 df_er_clean <- read_csv("data/lucid/er2_lucid_jan2023.csv") |> 
   dplyr::select(-c(RecipientLastName:ExternalReference)) |> 
-  filter(Q1.1 != "I do not agree") |> 
-  mutate(passed_ac = ifelse(Q4.1_1 == "Extremely interested" &
+ # filter(Q1.1 != "I do not agree") |> 
+  mutate(Q4.1_1 = str_squish(Q4.1_1),
+         Q4.1_2 = str_squish(Q4.1_2),
+         passed_ac = ifelse(Q4.1_1 == "Extremely interested" &
                               Q4.1_2 == "Very interested", TRUE, FALSE),
          partisan = ifelse(str_detect(Q2.4, "Republic"), "Republican",
                            ifelse(str_detect(Q2.4, "Democrat"), "Democrat", NA)),
          partisan = ifelse(Q2.1 == "Democrat", "Democrat",
                            ifelse(Q2.1 == "Republican", "Republican", partisan)),
-         pol_interest = as.numeric(str_remove_all(Q2.5_1,"Passionately interested |Not at all interested ")))
+         pol_interest = as.numeric(str_remove_all(Q2.5_1,"Passionately interested |Not at all interested ")))  |> 
+  filter(passed_ac == TRUE)
 
 ## Reduce to only the vars with data about the participants we need
 df_er_participants <-
   df_er_clean |> 
   dplyr::select(-c(Q5.1_1:Q5.1_3, Q6.1_1:Q6.1_3, 
                    Q5.2_71:Q5.2_85, Q6.2_37:Q6.2_52, 
-                   contains("_DO_")))
+                   contains("_DO_"))) |> 
+  mutate(ideology_self = ifelse(Q3.1_1 == "Very conservative", 6,
+                                ifelse(Q3.1_1 == "Conservative", 5,
+                                       ifelse(Q3.1_1 == "Somewhat conservative", 4,
+                                              ifelse(Q3.1_1 == "Moderate", 3,
+                                                     ifelse(Q3.1_1 == "Somewhat liberal", 2,
+                                                            ifelse(Q3.1_1 == "Liberal", 1,
+                                                                   ifelse(Q3.1_1 == "Very liberal", 0, NA))))))),
+         gender = Q7.4,
+         pol_interest_scaled = scale(pol_interest),
+         ideological_extremity_scaled = scale(abs(ideology_self-3)))
 
 ## Process the open text responses. 
 df_er_open <- 
@@ -98,15 +132,10 @@ df_er_open <-
   mutate(party_open_q = ifelse(str_detect(question_open, "5"), "Democrats", "Republicans")) |> 
   group_by(ResponseId, question_stem) |> 
   mutate(number = as.numeric(number),
-         politicians_open_count = sum(!is.na(politicians_open))) |> 
+        politicians_open_lower = str_to_lower(politicians_open)) |> 
   ungroup() |> 
   #unite("party_open", c(party_open, number), sep = "_", remove = FALSE) |> 
-  dplyr::select(-question_stem) |> 
-  mutate(politicians_open_lower = str_to_lower(politicians_open)) |> 
-  group_by(politicians_open_lower) |> 
-  add_count(politicians_open) |> 
   #distinct() |> 
-  ungroup() |> 
   mutate(politican_clean = ifelse(str_detect(politicians_open_lower,"olta|cara|bennett|gates|kavanaugh|mussolini|acn|sam|cruise|sandler|hire|unila|iris|ami|kiara|none|nike|gucci|bathroom|nikeb|boo|valente|dde|maga|honest|nond|hjjh|fcjj|rizzler|gyat|ohio|fanum|skibidi|gigachad|politic|election|future|mone|luis|ggvyv|yvvygv|vgvuy|yhgvyfgvy|vfv|fuck|orange|them|one|like|king|nice|idk|wisconsin|michigan|manager|sarah|nothing|available|butt|only|caller|first|linnie|nine|good|know|gjsas|sjkhsik|sjoiusi|jgjy|fjfj|forgot|forgo|nobe|nonenone|rudg|nome|mark|hitler|telling|no true|determined|strong|bruce|musk|one|pay|attention|putin|jong|queen|buŕr|white|then|fifth|foreign|rug|tf|rush do|jean pierre|zombies|antonio|fish|naci|bert|cara|naive|puppets|unsure|manipulative|scam|egocentric|democrat|republicans|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx|asshole|asshole|nonw|satan|antichrist|epstein|dianne|alex|jim|dave|evelyn|isabella|pololce|vice|remember|conservatives|liberals|moderates|contemporary|taxes|freedoms|first|nonr|mind|gay|ass|homos|trim|guy|dang|anti|derrick|familia|henry|pution|nobody|neutral|not|sure|somebody|crooks|insurrectionists|jail|trustworthy|reliable|dishonest|speaker|jone|non|the|dominican"), "Spam", NA),
          politican_clean = ifelse(str_length(politicians_open_lower) < 3, "Spam", politican_clean),
          politican_clean = ifelse(str_detect(politicians_open_lower, "biswn|sleepy joe|binden|biddn|bden|joe b|biden|blden|bidon|biedin|baby joe|beiden|baiden|bidden|bidien|boden|buden"), "Joseph Biden", politican_clean),
@@ -200,13 +229,87 @@ df_er_open <-
   left_join(df_open_ids_complicated) |> 
   left_join(df_open_ids) |> 
   mutate(politican_clean = coalesce(politican_clean, politican_clean2),
-         bonica.rid = coalesce(bonica.rid, bonica.rid2)) |> 
+         bonica.rid = coalesce(bonica.rid, bonica.rid2),
+         bonica.rid = ifelse(politican_clean == "George HW Bush", "cand3332nominee", bonica.rid)) |> 
   dplyr::select(-ends_with("2")) |> 
   left_join(df_dime_open_merge) |> 
-  left_join(df_er_participants)
-
-
-
+  left_join(df_missing_party) |> 
+  mutate(party_open_q = ifelse(str_detect(party_open_q,"Demo"), "Democrat",
+                               ifelse(str_detect(party_open_q, "Repub"), "Republican", NA)),
+         party_name = coalesce(party_name, party_name2), 
+         politican_clean_count = ifelse(politican_clean == "Spam", NA, politican_clean),
+         politican_clean_count = ifelse(is.na(party_name), NA, politican_clean_count),
+         politican_clean_count = ifelse(party_name != party_open_q, NA, politican_clean_count)) |> 
+  group_by(ResponseId, question_stem) |> 
+  mutate(number = as.numeric(number),
+         politicians_open_count = sum(!is.na(politican_clean_count))) |> 
+  ungroup() |> 
+  dplyr::select(-question_stem) |> 
+  group_by(politicians_open_lower) |> 
+  add_count(politicians_open) |>
+  left_join(df_er_participants) |> 
+  mutate(partisan_type = ifelse(partisan == party_open_q, "Copartisan", "Outpartisan"),
+         partisan_type = ifelse(is.na(partisan_type), "Independent/Other", partisan_type),
+         politican_clean = ifelse(politican_clean == "Spam", NA, politican_clean),
+         recency_num = ifelse(recency == "recent", 1, 0),
+         recall_white = ifelse(race_ethnicity == "W", 1, 0),
+         pres_gov_dummy = ifelse(most_recent_office %in% c("governor", "president"), 1, 0),
+         # fix the HW Bush issue in the DIME data 
+         recipient.cfscore.dyn = ifelse(bonica.rid == "cand3334nominee", 1.348, recipient.cfscore.dyn),
+         recipient.cfscore.dyn = ifelse(bonica.rid == "cand3334nominee", 1.348, recipient.cfscore.dyn),
+         ## proportional coding
+         bush_assign = ifelse(politican_clean == "George W Bush, ambiguous", sample(c("Senior", "Junior"), prob = c(0.22, 0.78)), NA),
+         clinton_assign = ifelse(politican_clean == "Hillary Clinton, ambiguous", sample(c("Bill", "Hillary"), prob = c(0.54, 0.46)), NA),
+         recipient.cfscore.dyn_prop = case_when(
+           bush_assign == "Junior" ~ 1.348,
+           bush_assign == "Senior" ~ 1.282,
+           clinton_assign == "Bill" ~ -1.089,
+           clinton_assign == "Hillary" ~ -1.223,
+           .default = recipient.cfscore.dyn),
+         recipient.cfscore_prop = case_when(
+           bush_assign == "Junior" ~ 1.205,
+           bush_assign == "Senior" ~ 0.992,
+           clinton_assign == "Bill" ~ -0.960,
+           clinton_assign == "Hillary" ~ -1.055,
+           .default = recipient.cfscore),
+         politican_clean_prop = case_when(
+           bush_assign == "Junior" ~ "George W Bush, unambiguous",
+           bush_assign == "Senior" ~ "George HW Bush",
+           clinton_assign == "Bill" ~ "Bill Clinton",
+           clinton_assign == "Hillary" ~ "Hillary Clinton, unambiguous",
+           .default = politican_clean),
+         bonica.rid_prop = case_when(
+           bush_assign == "Junior" ~ "cand3334nominee",
+           bush_assign == "Senior" ~ "cand3332nominee",
+           clinton_assign == "Bill" ~ "cand3333nominee",
+           clinton_assign == "Hillary" ~ "cand1572nominee",
+           .default = bonica.rid),
+         # extreme coding
+         recipient.cfscore.dyn_extreme = recipient.cfscore.dyn,
+         recipient.cfscore_extreme = recipient.cfscore,
+         politican_clean_extreme = case_when(
+           politican_clean == "George W Bush, ambiguous" ~ "George W Bush, unambiguous",
+           politican_clean == "Hillary Clinton, ambiguous" ~ "Hillary Clinton, unambiguous",
+           .default = politican_clean),
+         bonica.rid_extreme = bonica.rid,
+         # moderate coding 
+         recipient.cfscore.dyn_moderate = case_when(
+           politican_clean == "George W Bush, ambiguous" ~ 1.282,
+           politican_clean == "Hillary Clinton, ambiguous" ~ -1.089,
+           .default = recipient.cfscore.dyn),
+         recipient.cfscore_moderate = case_when(
+           politican_clean == "George W Bush, ambiguous" ~ 0.992,
+           politican_clean == "Hillary Clinton, ambiguous" ~ -0.960,
+           .default = recipient.cfscore),
+         politican_clean_moderate = case_when(
+           politican_clean == "George W Bush, ambiguous" ~ "George HW Bush",
+           politican_clean == "Hillary Clinton, ambiguous" ~ "Bill Clinton",
+           .default = politican_clean),
+         bonica.rid_moderate = case_when(
+           politican_clean == "George W Bush, ambiguous" ~ "cand3332nominee",
+           politican_clean == "Hillary Clinton, ambiguous" ~ "cand3333nominee",
+           .default = bonica.rid)) |> 
+  dplyr::select(-c(bush_assign,clinton_assign))
 rm(df_open_ids, df_open_ids_complicated)
 
 ## Process the closed responses and merge the other data with that 
@@ -255,6 +358,7 @@ df_er_closed <-
   group_by(ResponseId, question_stem) |> 
   mutate(politicians_closed_count = sum(!is.na(politicians_closed))) |> 
   ungroup() |> 
+  mutate(bonica.rid = ifelse(bonica.rid == "", NA, bonica.rid)) |> 
   #unite("party_closed", c(party_closed, number), sep = "_", remove = FALSE) |> 
   dplyr::select(-question_stem) |>
   #drop_na(politicians_closed) |> 
@@ -300,6 +404,9 @@ df_er_issues_open <-
 
 
 ## State politicians 
+state_politicians_to_drop <- read_csv("data/politicians/state_politicians.csv") |> 
+  filter(comment == "drop") 
+
 df_er_state_open <- 
   df_er_clean |> 
   dplyr::select(ResponseId,  Q11.1_1:Q11.1_3,Q12.1_1:Q12.1_3) |> 
@@ -308,6 +415,9 @@ df_er_state_open <-
                values_to = "politicians_state_open") |> 
   separate(question_open, into = c("question_stem", "number"), sep = "_", remove = FALSE) |> 
   mutate(party = ifelse(str_detect(question_open, "5"), "dem", "rep")) |> 
+  left_join(state_politicians_to_drop) |> 
+  mutate(politicians_state_open =  ifelse(!is.na(comment), NA, politicians_state_open)) |> 
+  dplyr::select(-comment) |> 
   group_by(ResponseId, question_stem) |> 
   mutate(number = as.numeric(number),
          politicians_state_open_count = sum(!is.na(politicians_state_open))) |> 
@@ -317,5 +427,6 @@ df_er_state_open <-
   left_join(df_er_participants)
 
 
-#rm(df_dime_merge)
+rm(df_dime_merge, state_politicians_to_drop,
+   list_bonica_closed, list_bonica_open, df_missing_party)
 

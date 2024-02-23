@@ -4,7 +4,7 @@ df_lucid_check <-
   df_er_clean |> 
   dplyr::select(ResponseId, `Duration (in seconds)`, Q7.3:Q3.1_3, age, gender, hhi, 
                 ethnicity, hispanic, political_party, region, zip, education) |> 
-  mutate(gender = ifelse(gender_label == 1, "Male", "Female"),
+  mutate(gender = ifelse(gender == 1, "Male", "Female"),
          hhi_label = case_when(hhi == 1 ~ "Less than $14,999",
                          hhi == 2 ~ "$15,000 to $19,999",
                          hhi == 3 ~ "$20,000 to $24,999",
@@ -134,6 +134,8 @@ df_lucid_check <-
 
 
 table(df_er_clean2$Q7.6, df_er_clean2$ethnicity)
+df_er_clean2<- df_lucid_check
+
 df_er_clean2 |> 
   mutate(Q7.6= coalesce(Q7.6_1, Q7.6_2, Q7.6_3,Q7.6_4, Q7.6_5, Q7.6_6,Q7.6_7)) |> 
   dplyr::select(Q7.6, ethnicity) |> 
@@ -179,5 +181,6 @@ df_er_clean2 |>
   group_by(Q7.5, education) |> 
   add_count() |> 
   ggplot(aes(x = Q7.5, y = education, fill = n)) +
-  geom_tile()
+  theme_bw() +
+  geom_tile() + theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=0.5))
 

@@ -10,10 +10,9 @@ library(stringr)
 ## DIME Data 
 ## data is reduced to governors, presidents, and senate members
 df_dime <- read.csv("data/cf_scores/dime_recipients_1979_2020.csv.gz") |> 
-   drop_na(cand.gender) |> 
-   filter(cand.gender %in% c("M", "F")) |>  
-   filter(seat %in% c("state:governor",  "federal:president", "federal:senate", "federal:house"))
-  |> 
+   #drop_na(cand.gender) |> 
+   #filter(cand.gender %in% c("M", "F")) |>  
+   filter(seat %in% c("state:governor",  "federal:president", "federal:senate", "federal:house"))|> 
   # mutate(party = ifelse(party.orig == "100", "Democrat",
   #                       ifelse(party.orig == "200", "Republican", NA))) |> 
   # dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
@@ -22,9 +21,7 @@ df_dime <- read.csv("data/cf_scores/dime_recipients_1979_2020.csv.gz") |>
   mutate(party = ifelse(party.orig == "100", "Democrat",
                         ifelse(party.orig == "200", "Republican", NA))) |> 
   dplyr::select(bonica.rid, election, cycle, fecyear, name, lname, fname, 
-                cand.gender:irt.cfscore, party, seat)
-
-|> 
+                cand.gender:irt.cfscore, party, seat) |> 
   mutate(name_f = as.factor(name)) |> 
   filter(bonica.rid %in% c(
     # Republicans
