@@ -125,6 +125,29 @@ df_w1_complete <-
   mutate(politicians_open_count = sum(!is.na(name)),
          state_politician = name %in% w1_state_politicians)
 
+bill <- c("bill clinton", "pres. clinton", "president clinton")
+hillary <- c("hilary clinton", "hillary clinton", "hillary", "hilliary clinton", "hillary cliton", "hiliary clinton", "hillary rodham clinton", "hillary cllinton")
+clinton <- c("clinton", "klinton", "clintony")
+
+
+check <-
+  df_w1_complete |> 
+  ungroup() |> 
+  dplyr::select(name, politician_as_entered) |> 
+  filter(str_detect(name, "clinton")) |> 
+  distinct() |> 
+  mutate(name_extreme = case_when(
+    politician_as_entered %in% clinton ~ "hillary clinton",
+    politician_as_entered %in% bill ~ "bill clinton",
+    politician_as_entered %in% hillary ~ "hillary clinton",
+    .default = name),
+    name_moderate = case_when(
+      politician_as_entered %in% clinton ~ "bill clinton",
+      politician_as_entered %in% bill ~ "bill clinton",
+      politician_as_entered %in% hillary ~ "hillary clinton",
+      .default = name))
+    
+
 
 table(df_w1_complete$name[df_w1_complete$state_politician == TRUE])
 # Clean up
