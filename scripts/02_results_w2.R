@@ -142,6 +142,18 @@ rm(df_long, df_id, df_selected, list_bonica, df_polinfo, df_attributes)
 ## Inline numbers for the manuscript
 df_er_open_w2 |> 
   ungroup() |> 
+  dplyr::select(politican_clean) |> 
+  drop_na(politican_clean) |> 
+  add_count(politican_clean) |> 
+  distinct() |> 
+  mutate(total = sum(n)) |> 
+  arrange(-total)
+
+#(592+260+611)/3296
+# 611/3296
+
+df_er_open_w2 |> 
+  ungroup() |> 
   dplyr::select(politican_clean, party_name) |> 
   filter(party_name %in%  c("Democrat")) |> 
   drop_na(politican_clean) |> 
@@ -156,7 +168,6 @@ df_er_open_w2 |>
 #3 Kamala Harris                Democrat     229     0.138 
 0.357 + 0.157 + 0.138
 # 0.652
-
 
 df_er_open_w2 |> 
   ungroup() |> 
@@ -290,4 +301,21 @@ texreg(list(lm_tab4_1, lm_tab4_2),
           custom.coef.names = c("(Intercept)", "Extremity", "Race: White", "Recent Politican",
                                 "Governor", "House", "Sec. of State", "Senate",
                                 "Vice President"))
+
+
+# Number of three politicians
+df_er_open_w2 |> 
+  dplyr::select(ResponseId, politicians_open_count) |> 
+  distinct() |> 
+  add_count(politicians_open_count) 
+
+# Wave 2
+476/(93+186+243+476)
+#0.4769539
+
+# Wave 1
+328/(328+55+9+2)
+
+# Combined
+(476+328)/(93+186+243+476+328+55+9+2)
 

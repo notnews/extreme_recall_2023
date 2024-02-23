@@ -1,0 +1,34 @@
+name_of_politician,DWNOM,position,pres_cand_gen,pres_cand_prim,vp_cand,PID,race,gender,extremity,recent
+Al Franken,-0.461,Senator,0,0,0,Democratic,w,m,,recent
+Al Gore,-0.336,Vice President,1,1,1,Democratic,w,m,0.20119766,recent
+Barack Obama,-0.329,President,1,1,0,Democratic,nw,m,0.75712483,recent
+Barney Frank,-0.545,Representative,0,0,0,Democratic,w,m,,recent
+Bernie Sanders,-0.541,Senator,0,0,0,Democratic,w,m,0.69915981,recent
+Bill Clinton,-0.472,President,1,1,0,Democratic,w,m,0.32557256,recent
+Chris Christie,,Governor,0,0,0,Republican,w,m,0.18883032,recent
+Elizabeth Warren,,Senator,0,0,0,Democratic,w,f,1,recent
+Eric Cantor,0.552,Representative,0,0,0,Republican,w,m,0.23451421,recent
+Franklin D. Roosevelt,-0.377,President,1,1,0,Democratic,w,m,,not_recent
+George W. Bush,0.724,President,1,1,0,Republican,w,m,0.44401928,recent
+Harry Reid,-0.304,Senator,0,0,0,Democratic,w,m,0.0416676,recent
+Hillary Clinton,-0.401,Senator,0,1,0,Democratic,w,f,0.52209057,recent
+Jeb Bush,,Governor,0,0,0,Republican,w,m,0.52526438,recent
+Joe Biden,-0.331,Vice President,0,1,1,Democratic,w,m,0.29140218,recent
+John Boehner,0.526,Representative,0,0,0,Republican,w,m,0.52176858,recent
+John F. Kennedy,-0.505,President,1,1,0,Democratic,w,m,,not_recent
+John Kerry,-0.386,Senator,1,1,0,Democratic,w,m,0.44349621,recent
+John McCain,0.38,Senator,1,1,0,Republican,w,m,0.187743,recent
+Jon Huntsman,,Governor,0,1,0,Republican,w,m,0.19913964,recent
+Marco Rubio,0.57,Senator,0,0,0,Republican,w,m,0.68417281,recent
+Max Baucus,-0.226,Senator,0,0,0,Democratic,w,m,0.14541223,recent
+Michele Bachmann,0.595,Representative,0,1,0,Republican,w,f,0.74430903,recent
+Mitch McConnell,0.407,Senator,0,0,0,Republican,w,m,0.26079774,recent
+Mitt Romney,,Governor,1,1,0,Republican,w,m,0.70190229,recent
+Nancy Pelosi,-0.53,Representative,0,0,0,Democratic,w,f,0.48362299,recent
+Paul Ryan,0.574,Representative,0,0,1,Republican,w,m,0.57512892,recent
+Rand Paul,0.983,Senator,0,0,0,Republican,w,m,0.85950579,recent
+Ronald Reagan,0.693,President,1,1,0,Republican,w,m,,not_recent
+Sarah Palin,,Governor,0,0,1,Republican,w,f,0.38237037,recent
+Susan Collins,0.101,Senator,0,0,0,Republican,w,f,,recent
+Ted Cruz,,Senator,0,0,0,Republican,w,m,0.77829284,recent
+Ted Kennedy,-0.47,Senator,0,0,0,Democratic,w,m,,recent

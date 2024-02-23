@@ -219,8 +219,8 @@ df_w1_complete <-
          recipient.cfscore.dyn_scaled1 = rescale(abs(recipient.cfscore.dyn_scaled1)),
          recipient.cfscore.dyn_scaled2 = rescale(recipient.cfscore.dyn_scaled2),
          recipient.cfscore.dyn_scaled = coalesce(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2),
-         recipient.cfscore.dyn_scaled_prop_1 = ifelse(party_name == "Democrat", recipient.cfscore.dyn_prop, NA),
-         recipient.cfscore.dyn_scaled_prop_2 = ifelse(party_name == "Republican", recipient.cfscore.dyn_prop, NA),
+         recipient.cfscore.dyn_scaled_prop_1 = ifelse(party_name == "Democrat", recipient.cfscore.dyn_prob, NA),
+         recipient.cfscore.dyn_scaled_prop_2 = ifelse(party_name == "Republican", recipient.cfscore.dyn_prob, NA),
          recipient.cfscore.dyn_scaled_moderate_1 = ifelse(party_name == "Democrat", recipient.cfscore.dyn_extreme, NA),
          recipient.cfscore.dyn_scaled_moderate_2 = ifelse(party_name == "Republican", recipient.cfscore.dyn_extreme, NA),
          recipient.cfscore.dyn_scaled_extreme_1 = ifelse(party_name == "Democrat", recipient.cfscore.dyn_moderate, NA),
@@ -230,10 +230,12 @@ df_w1_complete <-
          recipient.cfscore.dyn_scaled_extreme_comb = coalesce(abs(recipient.cfscore.dyn_scaled_extreme_1),recipient.cfscore.dyn_scaled_extreme_2),
          recipient.cfscore.dyn_scaled_extreme_comb = rescale(recipient.cfscore.dyn_scaled_extreme_comb),
          recipient.cfscore.dyn_scaled_moderate_comb = coalesce(abs(recipient.cfscore.dyn_scaled_moderate_1),recipient.cfscore.dyn_scaled_moderate_2),
-         recipient.cfscore.dyn_scaled_moderate_comb = rescale(recipient.cfscore.dyn_scaled_moderate_comb
-         
-         ) |> 
-  dplyr::select(-c(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2,  bush_assign, clinton_assign)) 
+         recipient.cfscore.dyn_scaled_moderate_comb = rescale(recipient.cfscore.dyn_scaled_moderate_comb)) |> 
+  dplyr::select(-c(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2, 
+                   recipient.cfscore.dyn_scaled_prop_1,recipient.cfscore.dyn_scaled_prop_2,
+                   recipient.cfscore.dyn_scaled_moderate_1, recipient.cfscore.dyn_scaled_moderate_2,
+                   recipient.cfscore.dyn_scaled_extreme_1, recipient.cfscore.dyn_scaled_extreme_2,
+                   bush_assign, clinton_assign))
 
 # Clean up
 rm(df_w1, df_w1_politician, df_w1_survey,df_missing_cf,
@@ -386,31 +388,35 @@ ggarrange(fig_1a_wave1, fig_1b_wave1, labels = c("A", "B"), ncol = 2, nrow = 1, 
 # saved as wave1_politicians_dotplot_byparty 1815 × 921 pixels
 
 ## Figure 2
-## Calculating the ideology mean of Congress for 2013
-ggplot(df_w1_complete, aes(x = recipient.cfscore.dyn)) +
+## Calculating the ideology mean of the survey
+mean(df_w1_complete$recipient.cfscore.dyn_scaled_prop_comb[df_w1_complete$party_name == 'Democrat'], na.rm = TRUE)
+mean(df_w1_complete$recipient.cfscore.dyn_scaled_prop_comb[df_w1_complete$party_name == 'Republican'], na.rm = TRUE)
+
+
+ggplot(df_w1_complete, aes(x = recipient.cfscore.dyn_scaled_prop_comb)) +
   #geom_histogram(aes(x = recipient.cfscore.dyn_scaled_comb, fill = party_open_q, alpha = 0.8)) + 
   geom_histogram(data=subset(df_w1_complete, party_name == 'Democrat'),fill = "blue", alpha = 0.5) +
   geom_histogram(data=subset(df_w1_complete, party_name == 'Republican'),fill = "red", alpha = 0.5) +
-  geom_vline(xintercept = 0.47, linetype = "dashed", color = "blue") +
-  geom_vline(xintercept = 0.7, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = 0.49, linetype = "dashed", color = "blue") +
+  geom_vline(xintercept = 0.53, linetype = "dashed", color = "red") +
   # geom_histogram(aes(x = dwnom2), fill = "blue") + 
   theme_bw() +
   labs(#title = "CF Score Distribution",
     # subtitle = "Political parties are scaled on party-specific min and max",
     x = "Extremity", y = "Count", fill = "Party")  +
   theme(legend.position = "none")
-
+# w1_scaled_extremity_distribution 2994 × 1869 pixels
 
 ## Figure 2
 ## Calculating the ideology mean of Congress for 2013
-mean(df_w1_complete$recipient.cfscore.dyn_scaled_comb[df_w1_complete$party_name == 'Democrat'], na.rm = TRUE)
-mean(df_w1_complete$recipient.cfscore.dyn_scaled_comb[df_w1_complete$party_name == 'Republican'], na.rm = TRUE)
+mean(df_w1_complete$recipient.cfscore.dyn_scaled_prop_comb[df_w1_complete$party_name == 'Democrat'], na.rm = TRUE)
+mean(df_w1_complete$recipient.cfscore.dyn_scaled_prop_comb[df_w1_complete$party_name == 'Republican'], na.rm = TRUE)
 
 check <- 
   df_w1_complete |> 
   dplyr::select(name, name_prop,party_name, recipient.cfscore.dyn, recipient.cfscore.dyn_scaled_comb)
 
-ggplot(df_w1_complete, aes(x = recipient.cfscore.dyn_scaled_comb)) +
+ggplot(df_w1_complete, aes(x = recipient.cfscore.dyn_scaled_prop_comb)) +
   #geom_histogram(aes(x = recipient.cfscore.dyn_scaled_comb, fill = party_open_q, alpha = 0.8)) + 
   geom_histogram(data=subset(df_w1_complete, party_name == 'Democrat'),fill = "blue", alpha = 0.5) +
   geom_histogram(data=subset(df_w1_complete, party_name == 'Republican'),fill = "red", alpha = 0.5) +
@@ -427,8 +433,8 @@ ggplot(df_w1_complete, aes(x = recipient.cfscore.dyn_scaled_comb)) +
 
 
 ## Table 1
-lm_1_1 <- feols(recipient.cfscore.dyn_scaled ~ number_inverse, data = df_w1_complete, se = "cluster", cluster = "ResponseId")
-lm_1_2 <- feols(recipient.cfscore.dyn_scaled_comb ~ number_inverse + party_name*number_inverse, data = df_w1_complete, se = "cluster", cluster = "ResponseId")
+lm_1_1 <- feols(recipient.cfscore.dyn_scaled_prop_comb ~ number_inverse, data = df_w1_complete, se = "cluster", cluster = "ResponseId")
+lm_1_2 <- feols(recipient.cfscore.dyn_scaled_prop_comb ~ number_inverse + party_name*number_inverse, data = df_w1_complete, se = "cluster", cluster = "ResponseId")
 
 
 screenreg(list(lm_1_1, lm_1_2))
@@ -512,13 +518,13 @@ screenreg(list(lm_1, lm_2, lm_3),
 
 df_int <-
   df_w1_complete |> 
-  dplyr::select(ResponseId, recipient.cfscore.dyn_scaled_comb, recall_party, pship) |> 
+  dplyr::select(ResponseId, recipient.cfscore.dyn_scaled_prop_comb, recall_party, pship) |> 
   mutate(recall_party = ifelse(recall_party == "dem", "Democratic", "Republican"),
          recall_party_f = as.factor(recall_party),
          pship = ifelse(pship %in% c("Democrat", "Republican"), pship, NA),
          pship_f = as.factor(pship))
 
-lm_2_6 <- feols(recipient.cfscore.dyn_scaled_comb ~ recall_party_f*pship_f, data = df_int, se = "cluster", cluster = "ResponseId")
+lm_2_6 <- feols(recipient.cfscore.dyn_scaled_prop_comb ~ recall_party_f*pship_f, data = df_int, se = "cluster", cluster = "ResponseId")
 
 
 plot_model(lm_2_6, type = "int") + 
@@ -529,7 +535,7 @@ plot_model(lm_2_6, type = "int") +
        color = 'Partisanship of respondent') +
   scale_color_manual(values = c("blue", "red")) +
   theme(legend.position = "bottom")
-
+# interaction_party_partisanship_comb_w1 825x825 
 
 
 ## Inline numbers
@@ -559,3 +565,15 @@ df_w1_complete |>
   add_tally(recalled_frequency) |> 
   print(n = 15)
 
+
+
+# Number of three politicians
+df_w1_complete |> 
+  dplyr::select(ResponseId, politicians_open_count) |> 
+  distinct() |> 
+  add_count(politicians_open_count) |> 
+  dplyr::select(politicians_open_count, n) |> 
+  distinct()
+
+328/(328+55+9+2)
+# 0.8324873

@@ -25,11 +25,11 @@ df_congress_w1 <-
          recipient.cfscore.dyn_scaled1 = recipient.cfscore.dyn_scaled1 - 0.332,
          recipient.cfscore.dyn_scaled2 = ifelse(party == "Republican", recipient.cfscore.dyn, NA),
          recipient.cfscore.dyn_scaled_comb = coalesce(abs(recipient.cfscore.dyn_scaled1),recipient.cfscore.dyn_scaled2),
-         recipient.cfscore.dyn_scaled_comb = rescale(recipient.cfscore.dyn_scaled_comb)),
+         recipient.cfscore.dyn_scaled_comb = rescale(recipient.cfscore.dyn_scaled_comb),
          recipient.cfscore.dyn_scaled1 = rescale(abs(recipient.cfscore.dyn_scaled1)),
          recipient.cfscore.dyn_scaled2 = rescale(recipient.cfscore.dyn_scaled2),
          recipient.cfscore.dyn_scaled = coalesce(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2)) |> 
-  dplyr::select(-c(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2)) |> 
+  #dplyr::select(-c(recipient.cfscore.dyn_scaled1,recipient.cfscore.dyn_scaled2)) |> 
   ungroup()
 
 
@@ -47,8 +47,18 @@ round(mean(df_congress_w1$recipient.cfscore.dyn_scaled_comb, na.rm = TRUE),2)
 round(mean(df_congress_w1$recipient.cfscore.dyn_scaled_comb, na.rm = TRUE),2)
 round(mean(df_congress_w1$recipient.cfscore.dyn_scaled_comb[df_congress_w1$party == "Democrat"], na.rm = TRUE),2)
 round(sd(df_congress_w1$recipient.cfscore.dyn_scaled_comb[df_congress_w1$party == "Democrat"], na.rm = TRUE),2)
+
+
+round(mean(df_congress_w1$recipient.cfscore.dyn_scaled1[df_congress_w1$party == "Democrat"], na.rm = TRUE),2)
+round(sd(df_congress_w1$recipient.cfscore.dyn_scaled1[df_congress_w1$party == "Democrat"], na.rm = TRUE),2)
+
 round(mean(df_congress_w1$recipient.cfscore.dyn_scaled_comb[df_congress_w1$party == "Republican"], na.rm = TRUE),2)
 round(sd(df_congress_w1$recipient.cfscore.dyn_scaled_comb[df_congress_w1$party == "Republican"], na.rm = TRUE),2)
+
+
+round(mean(df_congress_w1$recipient.cfscore.dyn_scaled2[df_congress_w1$party == "Republican"], na.rm = TRUE),2)
+round(sd(df_congress_w1$recipient.cfscore.dyn_scaled2[df_congress_w1$party == "Republican"], na.rm = TRUE),2)
+
 
 round(median(df_congress_w1$recipient.cfscore.dyn_scaled_comb, na.rm = TRUE),2)
 round(sd(df_congress_w1$recipient.cfscore.dyn_scaled_comb, na.rm = TRUE),2)

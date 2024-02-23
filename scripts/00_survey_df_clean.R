@@ -122,7 +122,7 @@ df_er_participants <-
          ideological_extremity_scaled = scale(abs(ideology_self-3)))
 
 ## Process the open text responses. 
-df_er_open <- 
+df_er_open_w2 <- 
   df_er_clean |> 
   dplyr::select(ResponseId, Q5.1_1:Q5.1_3, Q6.1_1:Q6.1_3) |> 
   pivot_longer(cols = -ResponseId,
