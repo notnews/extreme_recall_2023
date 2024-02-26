@@ -1,4 +1,4 @@
-# Old data files 
+# Study 1 files 
 
 # Libraries
 library("tidyverse")
@@ -239,7 +239,7 @@ df_w1_complete <-
 
 # Clean up
 rm(df_w1, df_w1_politician, df_w1_survey,df_missing_cf,
-   df_matched_names, df_missing_names,
+   df_matched_names, df_missing_names, df_names_scores, df_clean_names, w1_state_politicians,
    bill, hillary, clinton, jeb, bush, ghwb, gwb)
 
 
@@ -310,16 +310,6 @@ df_w1_complete |>
   add_count() |> 
   distinct()
 
-## Figure of number of politicians recalled
-df_w1_complete |> 
-  ungroup() |> 
-  dplyr::select(ResponseId, party_name, politicians_open_count) |> 
-  distinct() |> 
-  ggplot(aes(x = politicians_open_count)) +
-  geom_bar(aes(y = after_stat(count / sum(count)))) + theme_bw() +
-  labs(title = "Number of politicians recalled in the open-ended questions (Study 1)",
-       y = "Proportion",
-       x = "Number of politicians recalled")
 
 
 

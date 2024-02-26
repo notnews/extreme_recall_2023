@@ -172,7 +172,9 @@ screenreg(list(lm_1, lm_2),
                                 "Governor", "House", "Sec. of State", "Senate",
                                 "Vice President"))
           
-          
+lm_5 <- lmer(number_inverse ~ recipient.cfscore.dyn_scaled_prop_comb + party_open_q + cand.gender + partisan + pol_interest_scaled + ideological_extremity_scaled + gender + (1|ResponseId), data=df_open_longform) 
+lm_6 <- lmer(recipient.cfscore.dyn_scaled_prop_comb ~number_inverse+ party_open_q + cand.gender + partisan + pol_interest_scaled + ideological_extremity_scaled + gender + (1|ResponseId), data=df_open_longform) 
+
 texreg(list(lm_5, lm_6),
           custom.model.names = c("Number, inverse, open", "Ideology, scaled"),
           custom.coef.names = c("(Intercept)", "Extremity", "Republican Politician",
