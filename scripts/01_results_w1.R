@@ -50,6 +50,9 @@ df_missing_cf <- read_csv("data/politicians/w1_missing_cf_scores.csv") |>
          dwnom2_new = dwnom2,
          seat_new = seat)
 
+df_w1_seats <- read_csv("data/politicians/w1_seats.csv") |>  
+  rename(seat = seat_new)
+
 df_w1       <- import("data/turk/cleansurvey.dta") |> 
   rename(recipient.cfscore.dyn = cfscoresdyn, 
          ResponseId = uniqid) |> 
@@ -235,7 +238,8 @@ df_w1_complete <-
                    recipient.cfscore.dyn_scaled_prop_1,recipient.cfscore.dyn_scaled_prop_2,
                    recipient.cfscore.dyn_scaled_moderate_1, recipient.cfscore.dyn_scaled_moderate_2,
                    recipient.cfscore.dyn_scaled_extreme_1, recipient.cfscore.dyn_scaled_extreme_2,
-                   bush_assign, clinton_assign))
+                   bush_assign, clinton_assign)) |> 
+  left_join(df_w1_seats)
 
 # Clean up
 rm(df_w1, df_w1_politician, df_w1_survey,df_missing_cf,

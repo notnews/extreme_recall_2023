@@ -162,8 +162,21 @@ figure_1_rep <-
 ggarrange(figure_1_dem, figure_1_rep, labels = c("A", "B"), ncol = 2, nrow = 1, widths = c(0.5, 0.5))
 
 
+## Figure SI 2.3: Office of politicians named in open-ended responses in Study 1
+df_w1_complete |> 
+  ungroup() |> 
+  drop_na(name) |> 
+  drop_na(seat) |> 
+  add_count(seat, name = "number")  |> 
+  distinct() |> 
+  ggplot(aes(x = reorder(seat, number))) + 
+  geom_bar(aes(y = after_stat(count / sum(count)))) + 
+  theme_bw() +
+  labs(x = "Office",
+       y = "Proportion") +
+  coord_flip()
 
-## Figure SI 2.3: Office of politicians named in open-ended responses in Study 2
+## Figure SI 2.4: Office of politicians named in open-ended responses in Study 2
 df_er_open |> 
   ungroup() |> 
   drop_na(bonica.rid) |> 
