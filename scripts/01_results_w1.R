@@ -317,7 +317,7 @@ df_w1_complete |>
   distinct() |> 
   ggplot(aes(x = politicians_open_count)) +
   geom_bar(aes(y = after_stat(count / sum(count)))) + theme_bw() +
-  labs(title = "Number of recalled politicians in the open-ended questions of Wave 1",
+  labs(title = "Number of politicians recalled in the open-ended questions (Study 1)",
        y = "Proportion",
        x = "Number of politicians recalled")
 
@@ -530,7 +530,7 @@ lm_2_6 <- feols(recipient.cfscore.dyn_scaled_prop_comb ~ recall_party_f*pship_f,
 plot_model(lm_2_6, type = "int") + 
   theme_bw() +
   labs(title = "",
-       x = "Political Party in survey question",
+       x = "Political party of the recalled politician",
        y = "Extremity",
        color = 'Partisanship of respondent') +
   scale_color_manual(values = c("blue", "red")) +
