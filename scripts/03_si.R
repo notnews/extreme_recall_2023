@@ -11,20 +11,20 @@ df_w1_complete |>
        x = "Number of politicians recalled")
 
 # Figure SI 1.2: Number of politicians recalled in open-ended questions in Study 2
-df_er_open_analysis |> 
+df_er_open_w2 |> 
   ggplot(aes(x = politicians_open_count)) +
   geom_bar(aes(y = stat(count / sum(count)))) +
   #geom_bar() + 
   theme_bw() +
-  labs(title = "Number of recalled politicians in the open-ended question",
+  labs(title = "Number of recalled politicians in the open-ended question (Study 2)",
        y = "Proportion", x = "Number of politicians recalled")
 
 # Figure SI 1.3: Number of state and local politicians recalled in open-ended questions in Study 2
-df_er_state_open_analysis |> 
+df_er_state_open |> 
   ggplot(aes(x = politicians_state_open_count)) +
   geom_bar(aes(y = stat(count / sum(count)))) +
   theme_bw() +
-  labs(title = "Number of recalled state or local politicians in the open-ended question",
+  labs(title = "Number of recalled state or local politicians in the open-ended question (Study 2)",
        y = "Proportion", x = "Number of state or local politicians recalled")
 
 # Figure SI 1.4: Number of politicians recalled in close-ended questions in Study 2
