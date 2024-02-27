@@ -524,9 +524,9 @@ lm_2_6 <- feols(recipient.cfscore.dyn_scaled_prop_comb ~ recall_party_f*pship_f,
 plot_model(lm_2_6, type = "int") + 
   theme_bw() +
   labs(title = "",
-       x = "Political party of the recalled politician",
+       x = "Politcal party of the politician",
        y = "Extremity",
-       color = 'Partisanship of respondent') +
+       color = 'Partisanship of the respondent') +
   scale_color_manual(values = c("blue", "red")) +
   theme(legend.position = "bottom")
 # interaction_party_partisanship_comb_w1 825x825 

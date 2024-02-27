@@ -249,6 +249,9 @@ figure_1_rep <-
 ggarrange(figure_1_dem, figure_1_rep, labels = c("A", "B"), ncol = 2, nrow = 1, widths = c(0.5, 0.5))
 
 ## Figure 5
+mean(df_er_open_w2$recipient.cfscore.dyn_scaled_prop_comb[df_er_open_w2$party_open_q == 'Democrat'], na.rm = TRUE)
+mean(df_er_open_w2$recipient.cfscore.dyn_scaled_prop_comb[df_er_open_w2$party_open_q == 'Republican'], na.rm = TRUE)
+
 ggplot(df_er_open_w2, aes(x = recipient.cfscore.dyn_scaled_prop_comb)) +
   #geom_histogram(aes(x = recipient.cfscore.dyn_scaled_comb, fill = party_open_q, alpha = 0.8)) + 
   geom_histogram(data=subset(df_er_open_w2,party_open_q == 'Democrat'),fill = "blue", alpha = 0.5) +
@@ -259,8 +262,8 @@ ggplot(df_er_open_w2, aes(x = recipient.cfscore.dyn_scaled_prop_comb)) +
     #subtitle = "Political parties are scaled on shared min and max",
     x = "Extremity", y = "Count", fill = "Party")  +
   theme(legend.position = "none") +
-  geom_vline(xintercept = 0.53, linetype = "dashed", color = "blue") +
-  geom_vline(xintercept = 0.64, linetype = "dashed", color = "red") 
+  geom_vline(xintercept = 0.80, linetype = "dashed", color = "blue") +
+  geom_vline(xintercept = 0.85, linetype = "dashed", color = "red") 
 ## export as w2_scaled_extremity_distribution 1996x1246
 
 ## Table 3
@@ -281,16 +284,16 @@ lm_fig_6 <- feols(recipient.cfscore.dyn_scaled_prop_comb ~ party_open_q*partisan
 plot_model(lm_fig_6, type = "int") + 
   theme_bw() +
   labs(title = "",
-       x = "Political Party in survey question",
+       x = "Politcal party of the politician",
        y = "Extremity",
-       color = 'Partisanship of respondent') +
+       color = 'Partisanship of the respondent') +
   scale_color_manual(values = c("blue", "red")) +
   theme(legend.position = "bottom")
 # export as interaction_party_partisanship_comb with 825x825
 
 ## Table 4
 lm_tab4_1 <- lmer(selected ~ recipient.cfscore.dyn_scaled_comb + (1|ResponseId), data=df_closed_long_w2)
-lm_tab4_2 <- lmer(selected ~ recipient.cfscore.dyn_scaled_comb + race_ethnicity + recency + most_recent_office_f + (1|ResponseId), data=df_closed_long_w2)
+lm_tab4_2 <- lmer(select ed ~ recipient.cfscore.dyn_scaled_comb + race_ethnicity + recency + most_recent_office_f + (1|ResponseId), data=df_closed_long_w2)
 
 screenreg(list(lm_tab4_1, lm_tab4_2),
           custom.coef.names = c("(Intercept)", "Extremity", "Race: White", "Recent Politican",
