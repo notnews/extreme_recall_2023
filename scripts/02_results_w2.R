@@ -7,6 +7,7 @@ library("texreg")
 library("fixest")
 library("sjPlot")
 library("scales")
+library("lme4")
 
 # Source the data file
 source("scripts/00_survey_df_clean.R")
@@ -293,7 +294,7 @@ plot_model(lm_fig_6, type = "int") +
 
 ## Table 4
 lm_tab4_1 <- lmer(selected ~ recipient.cfscore.dyn_scaled_comb + (1|ResponseId), data=df_closed_long_w2)
-lm_tab4_2 <- lmer(select ed ~ recipient.cfscore.dyn_scaled_comb + race_ethnicity + recency + most_recent_office_f + (1|ResponseId), data=df_closed_long_w2)
+lm_tab4_2 <- lmer(selected ~ recipient.cfscore.dyn_scaled_comb + race_ethnicity + recency + most_recent_office_f + (1|ResponseId), data=df_closed_long_w2)
 
 screenreg(list(lm_tab4_1, lm_tab4_2),
           custom.coef.names = c("(Intercept)", "Extremity", "Race: White", "Recent Politican",
@@ -321,4 +322,107 @@ df_er_open_w2 |>
 
 # Combined
 (476+328)/(93+186+243+476+328+55+9+2)
+
+
+## Gender numbers 
+df_gender <- 
+  df_er_open_w2 |> 
+  dplyr::select(ResponseId, politican_clean, bonica.rid, party_open_q,cand.gender, gender) |> 
+  drop_na(politican_clean) |> 
+  mutate(cand.gender = ifelse(is.na(cand.gender) & politican_clean %in% c("Janet Mills", "Marianne Williamson", 
+                                                                      "Nicole Beus Harris", "Ronna Mcdaniel", 
+                                                                      "Sarah Palin"), "F",
+                              ifelse(is.na(cand.gender) & !politican_clean %in% c("Janet Mills", "Marianne Williamson", 
+                                                                             "Nicole Beus Harris", "Ronna Mcdaniel", 
+                                                                             "Sarah Palin"), "M",cand.gender)),
+         cand.gender = ifelse(politican_clean == "Maureen Healy", "F", cand.gender),
+         cand.gender_dummy = ifelse(cand.gender == "F", 1, 0))
+
+
+table(df_gender$cand.gender)
+
+table(df_gender$cand.gender, df_gender$party_open_q)
+2665/(631+2665) 
+
+df_gender |> 
+  dplyr::select(cand.gender, party_open_q) |> 
+  group_by(party_open_q,cand.gender) |> 
+  add_count() |> 
+  distinct() |> 
+  mutate(Proportion = n /3296,
+         cand.gender = ifelse(cand.gender == "F", "Female", "Male"))|> 
+  ggplot(aes(x = cand.gender, y = Proportion, fill = party_open_q)) +
+  geom_bar(position="dodge", stat="identity") +  
+  scale_fill_manual(values = c("blue", "red")) +
+  theme_bw() + theme(legend.position = "none") +
+  labs(x = "Gender of named politician")
+
+
+lm_gender <- feols(cand.gender_dummy ~ gender, data = df_gender, se = "cluster", cluster = "ResponseId")
+screenreg(list(lm_gender),
+          custom.coef.names = c("(Intercept)", "Respondent: Male", "Respondent: Non-binary"))
+texreg(list(lm_gender),
+          custom.coef.names = c("(Intercept)", "Respondent: Male", "Respondent: Non-binary"))
+
+
+
+## Race numbers 
+black_moc <- c("Kweisi Mfume", "Eleanor Holmes-Norton", "Maxine Waters", "Sanford Bishop", 
+               "Jim Clyburn", "Eddie Bernice Johnson", "Bobby Rush", "Bobby Scott", 
+               "Bennie Thompson", "Sheila Jackson Lee", "Danny Davis", "Gregory Meeks",
+               "Barbara Lee", "David Scott", "G.K. Butterfield", "Emanuel Cleaver",
+               "Al Green", "Gwen Moore", "Yvette Clarke", "Hank Johnson", "Andre Carson",
+               "Karen Bass", "Cedric Richmond", "Terri Sewell", "Frederica Wilson", 
+               "Donald Payne", "Joyce Beatty", "Hakeem Jeffries", "Marc Veasey",
+               "Robin Kelly", "Alma Adams", "Bonnie Watson Coleman", "Brenda Lawrence", 
+               "Stacey Plaskett", "Dwight Evans", "Donald McEachin", "Anthony Brown",
+               "Val Demings", "Al Lawson", "Lisa Blunt Rochester", "Joe Neguse", 
+               "Jahana Hayes", "Lucy McBath", "Lauren Underwood", "Ayanna Pressley",
+               "Ilhan Omar", "Steven Horsford", "Antonio Delgado", "Colin Allred", 
+               "Kweisi Mfume", "Byron Donalds", "Cori Bush", "Ritchie Torres", 
+               "Jamaal Bowman", "Mondaire Jones", "Burgess Owens", "Marilyn Strickland",
+               "Nikema Williams", "Shontel Brown", "Cory Booker", "Michael Johnson", 
+               "Tim Scott", "Jaime Harrison", "Ben Carson", "Hakeem Jeffries")
+
+latino_moc <- c("Adriano Espaillat", "Alexandria Ocasio Cortez", "Andrea Salinas", "Darren Soto", 
+                "Delia Ramirez", "Gabe Vasquez", "Grace Napolitano", "Greg Casar", 
+                "Gregorio Kilili Camacho Sablan", "Henry Cuellar", "Jesus Garcia", 
+                "Jim Costa", "Jimmy Gomez", "Joaquin Castro", "Juan Vargas", 
+                "Linda Sánchez", "Lori Trahan", "Lou Correa", "Marie Gluesenkamp Perez", 
+                "Maxwell Alejandro Frost", "Mike Levin", "Nanette Diaz Barragan",
+                "Norma Torres", "Nydia Velazquez", "Pete Aguilar", "Raul Ruiz",
+                "Raul Grijalva", "Ritchie Torres", "Robert Garcia", "Bob Menendez", "Robert Menendez", 
+                "Ruben Gallego", "Salud Carbajal", "Sylvia Garcia", "Teresa Leger Fernandez", 
+                "Tony Cardenas", "Veronica Escobar", "Vicente Gonzalez", "Yadira Caraveo", "George Santos",
+                "Alex Padilla", "Ben Ray Lujan", "Catherine Cortez Masto", "Robert Menendez")
+
+asian_moc <- c("Andy Kim", "Jill Tokuda", "Kai Kahele", "Marilyn Strickland", "Michelle Steel", 
+               "Shri Thanedar", "Stephanie Bice", "TJ Cox", "Young Kim", "Colleen Hanabusa", 
+               "Bobby Scott", "Daniel Akaka", "Steve Austria", "Ami Bera", "Joseph Cao", 
+               "Judy Chu", "Hansen Clarke", "Charles Djou", "Tammy Duckworth", "Mervyn Dymally", 
+               "John Ensign", "Tulsi Gabbard", "Colleen Hanabusa", "Mazie Hirono", "Mike Honda", 
+               "Pramila Jayapal", "Bobby Jindal", "Ro Khanna", "Jay Kim", "Raja Krishnamoorthi", 
+               "Ted Lieu", "Bob Matsui", "Doris Matsui", "Spark Matsunaga", "Grace Meng",
+               "Norman Mineta", "Patsy Mink", "Patsy Mink", "Stephanie Murphy", "Pat Saiki", 
+               "Mark Takai", "Mark Takano", "David Wu", "Vivek Ramaswamy")
+
+df_race <- 
+  df_er_open_w2 |> 
+  dplyr::select(politican_clean, bonica.rid, party_open_q, race_ethnicity) |> 
+  drop_na(politican_clean) |> 
+  mutate(race_ethnicity = ifelse(is.na(race_ethnicity) & politican_clean %in% black_moc,"NW",
+                                 ifelse(is.na(race_ethnicity) & politican_clean %in% latino_moc,"NW",
+                                        ifelse(is.na(race_ethnicity) & politican_clean %in% asian_moc,"NW", race_ethnicity))),
+         race_ethnicity = ifelse(is.na(race_ethnicity), "W", race_ethnicity),
+         race_ethnicity_dummy = ifelse(race_ethnicity == "NW", 1, 0))
+
+table(df_race$race_ethnicity)
+
+table(df_race$cand.gender, df_gender$party_open_q)
+
+df_race |> 
+  ggplot(aes(x = race_ethnicity,  fill = party_open_q)) +
+  geom_bar() +  scale_fill_manual(values = c("blue", "red")) +
+  theme_bw()
+
 

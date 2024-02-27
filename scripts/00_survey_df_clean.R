@@ -9,8 +9,7 @@ setwd(githubdir)
 setwd("extreme_recall2")
 
 # Libraries
-library(tidyverse)
-library(readxl)
+
 
 ## Bonica_ids 
 list_bonica_closed <- c(# Republicans
