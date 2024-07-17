@@ -37,7 +37,7 @@ df_er_closed_analysis |>
 
 # Table SI 1.1: Descriptive statistics of recall in Study 2
 
-## ADD inlince code here
+## ADD inline code here
 
 # SI 2 Who is Recalled?
 #Figure SI 2.1: Frequency of politicians that come to mind when people think about the parties in the open-ended questions in Study 1
